@@ -23,10 +23,7 @@ Route::get(
     'SeQura\Middleware\Http\Controllers\HealthCheckController@check'
 )->name('healthz');
 
-Route::group([
-    'prefix' => 'sequra',
-    'as' => 'sequra',
-], static function () {
+Route::middleware(['sequra'])->prefix('sequra')->name('sequra')->group(static function () {
     Route::group([
         'prefix' => '/admin',
         'as' => '.admin',
