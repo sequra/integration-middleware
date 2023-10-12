@@ -48,6 +48,17 @@ class WidgetSettingsController extends BaseController
                 $config = $data['widgetConfiguration'];
             } else {
                 $config = json_decode($data['widgetConfiguration'], true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    return response()->json(
+                        [
+                            'statusCode' => 400,
+                            'errorCode' => 400,
+                            'errorMessage' => __('sequra.widget-configuration.invalid-json'),
+                            'errorParameters' => [],
+                        ],
+                        400
+                    );
+                }
             }
         }
 
@@ -60,7 +71,7 @@ class WidgetSettingsController extends BaseController
                 $data['showInstallmentAmountInProductListing'],
                 $data['showInstallmentAmountInCartPage'],
                 $data['miniWidgetSelector'],
-                $data['widgetConfiguration'],
+                json_encode($data['widgetConfiguration']),
                 !empty($labels['messages']) ? $labels['messages'] : [],
                 !empty($labels['messagesBelowLimit']) ? $labels['messagesBelowLimit'] : []
             )
