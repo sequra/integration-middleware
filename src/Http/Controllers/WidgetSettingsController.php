@@ -53,7 +53,7 @@ class WidgetSettingsController extends BaseController
                         [
                             'statusCode' => 400,
                             'errorCode' => 400,
-                            'errorMessage' => __('sequra.widget-configuration.invalid-json'),
+                            'errorMessage' => __('messages.widget-configuration.invalid-json'),
                             'errorParameters' => [],
                         ],
                         400
@@ -71,7 +71,7 @@ class WidgetSettingsController extends BaseController
                 $data['showInstallmentAmountInProductListing'],
                 $data['showInstallmentAmountInCartPage'],
                 $data['miniWidgetSelector'],
-                json_encode($data['widgetConfiguration']),
+                $data['widgetConfiguration'],
                 !empty($labels['messages']) ? $labels['messages'] : [],
                 !empty($labels['messagesBelowLimit']) ? $labels['messagesBelowLimit'] : []
             )
