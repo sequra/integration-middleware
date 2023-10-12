@@ -60,7 +60,7 @@ class WidgetSettingsController extends BaseController
                 $data['showInstallmentAmountInProductListing'],
                 $data['showInstallmentAmountInCartPage'],
                 $data['miniWidgetSelector'],
-                $data['widgetStyles'],
+                $data['widgetConfiguration'],
                 !empty($labels['messages']) ? $labels['messages'] : [],
                 !empty($labels['messagesBelowLimit']) ? $labels['messagesBelowLimit'] : []
             )
