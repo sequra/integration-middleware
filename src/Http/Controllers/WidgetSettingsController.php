@@ -48,6 +48,17 @@ class WidgetSettingsController extends BaseController
                 $config = $data['widgetConfiguration'];
             } else {
                 $config = json_decode($data['widgetConfiguration'], true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    return response()->json(
+                        [
+                            'statusCode' => 400,
+                            'errorCode' => 400,
+                            'errorMessage' => __('messages.widget-configuration.invalid-json'),
+                            'errorParameters' => [],
+                        ],
+                        400
+                    );
+                }
             }
         }
 
@@ -60,21 +71,7 @@ class WidgetSettingsController extends BaseController
                 $data['showInstallmentAmountInProductListing'],
                 $data['showInstallmentAmountInCartPage'],
                 $data['miniWidgetSelector'],
-                !empty($config['type']) ? $config['type'] : '',
-                !empty($config['size']) ? $config['size'] : '',
-                !empty($config['font-color']) ? $config['font-color'] : '',
-                !empty($config['background-color']) ? $config['background-color'] : '',
-                !empty($config['alignment']) ? $config['alignment'] : '',
-                !empty($config['branding']) ? $config['branding'] : '',
-                !empty($config['starting-text']) ? $config['starting-text'] : '',
-                !empty($config['amount-font-size']) ? $config['amount-font-size'] : '',
-                !empty($config['amount-font-color']) ? $config['amount-font-color'] : '',
-                !empty($config['amount-font-bold']) ? $config['amount-font-bold'] : '',
-                !empty($config['link-font-color']) ? $config['link-font-color'] : '',
-                !empty($config['link-underline']) ? $config['link-underline'] : '',
-                !empty($config['border-color']) ? $config['border-color'] : '',
-                !empty($config['border-radius']) ? $config['border-radius'] : '',
-                !empty($config['no-costs-claim']) ? $config['no-costs-claim'] : '',
+                $data['widgetConfiguration'],
                 !empty($labels['messages']) ? $labels['messages'] : [],
                 !empty($labels['messagesBelowLimit']) ? $labels['messagesBelowLimit'] : []
             )
