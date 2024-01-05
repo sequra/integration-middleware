@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
 use SeQura\Core\BusinessLogic\AdminAPI\GeneralSettings\Requests\GeneralSettingsRequest;
 use SeQura\Core\BusinessLogic\Domain\GeneralSettings\Exceptions\EmptyCategoryParameterException;
+use SeQura\Core\BusinessLogic\Domain\GeneralSettings\Exceptions\FailedToRetrieveCategoriesException;
 
 /**
  * Class DisconnectController
@@ -57,5 +58,21 @@ class GeneralSettingsController extends BaseController
             $response->toArray(),
             $response->isSuccessful() ? 200 : $response->toArray()['errorCode']
         );
+    }
+
+    /**
+     * Returns all shop categories.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     *
+     * @throws FailedToRetrieveCategoriesException
+     */
+    public function getShopCategories(Request $request): JsonResponse
+    {
+        $data = AdminAPI::get()->generalSettings($request->get('storeId'))->getShopCategories();
+
+        return response()->json($data->toArray());
     }
 }

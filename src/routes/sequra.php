@@ -23,7 +23,7 @@ Route::get(
     'SeQura\Middleware\Http\Controllers\HealthCheckController@check'
 )->name('healthz');
 
-Route::middleware(['sequra'])->prefix('sequra')->name('sequra')->group(static function () {
+Route::prefix('sequra')->name('sequra')->group(static function () {
     Route::group([
         'prefix' => '/admin',
         'as' => '.admin',
@@ -39,6 +39,7 @@ Route::middleware(['sequra'])->prefix('sequra')->name('sequra')->group(static fu
         Route::post('countries/settings', [CountrySettingsController::class, 'setCountrySettings'])->name('.countries.settings.set');
         Route::get('general-settings', [GeneralSettingsController::class, 'getGeneralSettings'])->name('.general-settings.get');
         Route::post('general-settings', [GeneralSettingsController::class, 'setGeneralSettings'])->name('.general-settings.set');
+        Route::get('general-settings/categories', [GeneralSettingsController::class, 'getShopCategories'])->name('.general-settings.categories');
         Route::get('integration/version', [IntegrationController::class, 'getVersion'])->name('.integration.version');
         Route::get('integration/state', [IntegrationController::class, 'getState'])->name('.integration.state');
         Route::get('integration/shop-name', [IntegrationController::class, 'getShopName'])->name('.integration.shop-name');
@@ -52,5 +53,3 @@ Route::middleware(['sequra'])->prefix('sequra')->name('sequra')->group(static fu
         Route::post('widget', [WidgetSettingsController::class, 'setWidgetSettings'])->name('.widget.set');
     });
 });
-
-
