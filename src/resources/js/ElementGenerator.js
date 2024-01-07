@@ -516,14 +516,14 @@ if (!window.SequraFE) {
             createElement('div', 'sqp-actions', '', null, [
                 createButton({
                     className: 'sqp-cancel',
-                    type: 'cancel',
+                    type: 'form-secondary',
                     size: 'medium',
                     label: 'general.cancel',
                     onClick: onCancel
                 }),
                 createButton({
                     className: 'sqp-save',
-                    type: 'secondary',
+                    type: 'form-primary',
                     size: 'medium',
                     label: 'general.saveChanges',
                     onClick: onSave

@@ -2324,12 +2324,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:sequra/integration-core.git",
-                "reference": "694a5b417e47ca42fe509031e6224b77990471f6"
+                "reference": "1ff8564f67fb759c3a78198a48424d1a36814339"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/694a5b417e47ca42fe509031e6224b77990471f6",
-                "reference": "694a5b417e47ca42fe509031e6224b77990471f6",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/1ff8564f67fb759c3a78198a48424d1a36814339",
+                "reference": "1ff8564f67fb759c3a78198a48424d1a36814339",
                 "shasum": ""
             },
             "require": {
@@ -2359,7 +2359,7 @@
                 "proprietary"
             ],
             "description": "Core SeQura integration library",
-            "time": "2024-01-05T12:56:12+00:00"
+            "time": "2024-01-05T17:00:12+00:00"
         },
         {
             "name": "symfony/console",

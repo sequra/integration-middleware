@@ -13,6 +13,7 @@ if (!window.SequraFE) {
      * getOrderStatusMappingSettingsUrl: string,
      * getShopOrderStatusesUrl: string,
      * getShopCategoriesUrl: string,
+     * getShopPaymentMethodsUrl: string,
      * getSellingCountriesUrl: string,
      * getCountrySettingsUrl: string,
      * getPaymentMethodsUrl: string,
@@ -79,9 +80,10 @@ if (!window.SequraFE) {
                 case SequraFE.appPages.SETTINGS.ORDER_STATUS:
                     renderer = renderOrderStatusMappingSettingsForm;
                     promises = Promise.all([
-                        api.get(configuration.getOrderStatusMappingSettingsUrl),
-                        api.get(configuration.getShopOrderStatusesUrl),
-                        SequraFE.state.getShopName()
+                        SequraFE.isPromotional ? [] :
+                            SequraFE.state.getData('orderStatusSettings') ?? api.get(configuration.getOrderStatusMappingSettingsUrl),
+                        SequraFE.isPromotional ? [] :
+                            SequraFE.state.getData('shopOrderStatuses') ?? api.get(configuration.getShopOrderStatusesUrl)
                     ])
                     break;
                 case SequraFE.appPages.SETTINGS.WIDGET:
@@ -97,6 +99,8 @@ if (!window.SequraFE) {
                             SequraFE.state.getData('generalSettings') ?? api.get(configuration.getGeneralSettingsUrl),
                         SequraFE.isPromotional ? [] :
                             SequraFE.state.getData('shopCategories') ?? api.get(configuration.getShopCategoriesUrl),
+                        SequraFE?.generalSettings?.useReplacementPaymentMethod && !SequraFE.isPromotional ?
+                            SequraFE.state.getData('shopPaymentMethods') ?? api.get(configuration.getShopPaymentMethodsUrl) : [],
                         SequraFE.state.getData('sellingCountries') ?? api.get(configuration.getSellingCountriesUrl),
                     ])
             }
@@ -123,12 +127,19 @@ if (!window.SequraFE) {
          *
          * @param orderStatusSettings
          * @param shopOrderStatuses
-         * @param shopName
          */
-        const renderOrderStatusMappingSettingsForm = (orderStatusSettings, shopOrderStatuses, shopName) => {
+        const renderOrderStatusMappingSettingsForm = (orderStatusSettings, shopOrderStatuses) => {
+            if (!SequraFE.state.getData('orderStatusSettings')) {
+                SequraFE.state.setData('orderStatusSettings', orderStatusSettings)
+            }
+
+            if (!SequraFE.state.getData('shopOrderStatuses')) {
+                SequraFE.state.setData('shopOrderStatuses', shopOrderStatuses)
+            }
+
             const form = formFactory.getInstance(
                 'orderStatusMappingSettings',
-                {orderStatusSettings, shopOrderStatuses, shopName: shopName.shopName},
+                {orderStatusSettings, shopOrderStatuses},
                 {...configuration}
             );
 
@@ -159,18 +170,27 @@ if (!window.SequraFE) {
          *
          * @param generalSettings
          * @param shopCategories
+         * @param shopPaymentMethods
          * @param sellingCountries
          */
         const renderGeneralSettingsForm = (
             generalSettings,
             shopCategories,
+            shopPaymentMethods,
             sellingCountries,
         ) => {
-            saveFetchedDataToDataStore(generalSettings, shopCategories, sellingCountries);
+            saveFetchedDataToDataStore(generalSettings, shopCategories, shopPaymentMethods, sellingCountries);
 
             const form = formFactory.getInstance(
                 'generalSettings',
-                {generalSettings, shopCategories, sellingCountries, connectionSettings, countrySettings},
+                {
+                    generalSettings,
+                    shopCategories,
+                    shopPaymentMethods,
+                    sellingCountries,
+                    connectionSettings,
+                    countrySettings
+                },
                 {...configuration, appState: SequraFE.appStates.SETTINGS}
             );
 
@@ -182,15 +202,20 @@ if (!window.SequraFE) {
          *
          * @param generalSettings
          * @param shopCategories
+         * @param shopPaymentMethods
          * @param sellingCountries
          */
-        const saveFetchedDataToDataStore = (generalSettings, shopCategories, sellingCountries) => {
+        const saveFetchedDataToDataStore = (generalSettings, shopCategories, shopPaymentMethods, sellingCountries) => {
             if (!SequraFE.state.getData('generalSettings')) {
                 SequraFE.state.setData('generalSettings', generalSettings)
             }
 
             if (!SequraFE.state.getData('shopCategories')) {
                 SequraFE.state.setData('shopCategories', shopCategories)
+            }
+
+            if (!SequraFE.state.getData('shopPaymentMethods')) {
+                SequraFE.state.setData('shopPaymentMethods', shopPaymentMethods)
             }
 
             if (!SequraFE.state.getData('sellingCountries')) {
@@ -250,10 +275,10 @@ if (!window.SequraFE) {
                     SequraFE.components.PageHeader.create(
                         {
                             currentVersion: version?.current,
-                            newVersion: version?.new && version?.downloadNewVersionUrl ? {
-                                versionLabel: version.new,
-                                versionUrl: version.downloadNewVersionUrl
-                            } : null,
+                            newVersion: {
+                                versionLabel: version?.new,
+                                versionUrl: version?.downloadNewVersionUrl
+                            },
                             mode: connectionSettings.environment === 'live' ? connectionSettings.environment : 'test',
                             activeStore: currentStoreId,
                             stores: stores.map((store) => ({label: store.storeName, value: store.storeId})),

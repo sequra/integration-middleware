@@ -74,7 +74,11 @@
       "generalSettings": {
         "captureDelayError": "El número de días de retraso de la captura debe estar entre 1 y 7.",
         "retentionPeriodError": "El número mínimo de período de retención es de 60.",
-        "categories": "No se pudieron recuperar las categorías."
+        "categories": "No se pudieron recuperar las categorías.",
+        "paymentMethods": ""
+      },
+      "orderStatusSettings" : {
+        "orderStatuses": ""
       },
       "webhooks": {
         "merchantError": "Comerciante con ID %s no encontrado.",
@@ -270,6 +274,10 @@
     "showCheckoutAsHostedPage": {
       "label": "Mostrar el proceso de pago de SeQura como página independiente",
       "description": "Especificar si el proceso de pago de SeQura debe mostrarse como una página alojada o una ventana emergente."
+    },
+    "replacementPaymentMethod" : {
+      "label": "",
+      "description": ""
     },
     "sendOrderReports": {
       "label": "Enviar informes de pedidos periódicamente a SeQura",

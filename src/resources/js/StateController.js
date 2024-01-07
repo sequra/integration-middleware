@@ -62,10 +62,13 @@ SequraFE.appPages = {
      * @property {ConnectionSettings | null} connectionSettings
      * @property {CountrySettings | null} countrySettings
      * @property {GeneralSettings | null} generalSettings
+     * @property {OrderStatusMapping[] | null} orderStatusSettings
      * @property {WidgetSettings | null} widgetSettings
      * @property {PaymentMethod[] | null} paymentMethods
      * @property {SellingCountry[] | null} sellingCountries
      * @property {Category[] | null} shopCategories
+     * @property {ShopOrderStatus[] | null} shopOrderStatuses
+     * @property {ShopPaymentMethod[] | null} shopPaymentMethods
      */
 
     /**
@@ -92,10 +95,13 @@ SequraFE.appPages = {
             connectionSettings: null,
             countrySettings: null,
             generalSettings: null,
+            orderStatusSettings: null,
             widgetSettings: null,
             paymentMethods: null,
             sellingCountries: null,
-            shopCategories: null
+            shopCategories: null,
+            shopOrderStatuses: null,
+            shopPaymentMethods: null
         };
 
         /**
@@ -146,16 +152,18 @@ SequraFE.appPages = {
          */
         const displayPageBasedOnState = () => {
             utilities.showLoader();
+            const hasVersion = SequraFE?.integration?.hasVersion ?? true;
+            const isMultistore = SequraFE?.integration?.isMultistore ?? true;
 
             return Promise.all([
-                api.get(configuration.versionUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())),
-                api.get(configuration.storesUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())),
+                hasVersion ? api.get(configuration.versionUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())) : null,
+                isMultistore ? api.get(configuration.storesUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())) : null,
                 api.get(configuration.pageConfiguration.onboarding.getConnectionDataUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())),
                 api.get(configuration.pageConfiguration.onboarding.getCountrySettingsUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())),
-                api.get(configuration.pageConfiguration.onboarding.getWidgetSettingsUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())),
+                SequraFE.pages.onboarding.includes(SequraFE.appPages.ONBOARDING.WIDGETS) ? api.get(configuration.pageConfiguration.onboarding.getWidgetSettingsUrl.replace(encodeURIComponent('{storeId}'), this.getStoreId())) : null,
             ]).then(([versionRes, storesRes, connectionSettingsRes, countrySettingsRes, widgetSettingsRes]) => {
                 dataStore.version = versionRes;
-                dataStore.stores = storesRes;
+                dataStore.stores = storesRes ?? [];
                 dataStore.connectionSettings = connectionSettingsRes;
                 dataStore.countrySettings = countrySettingsRes;
                 dataStore.widgetSettings = widgetSettingsRes;
@@ -200,7 +208,12 @@ SequraFE.appPages = {
             let [controllerName, page] = state.split('-');
 
             if (controllerName === SequraFE.appStates.ONBOARDING) {
-                if (dataStore.connectionSettings?.username && dataStore.countrySettings?.length && dataStore.widgetSettings?.useWidgets !== undefined && !SequraFE.state.getCredentialsChanged()) {
+                if (
+                    dataStore.connectionSettings?.username &&
+                    dataStore.countrySettings?.length &&
+                    (!SequraFE.pages.onboarding.includes(SequraFE.appPages.ONBOARDING.WIDGETS) || dataStore.widgetSettings?.useWidgets !== undefined) &&
+                    !SequraFE.state.getCredentialsChanged()
+                ) {
                     currentState.split('-')[0] === SequraFE.appStates.ONBOARDING ?
                         this.goToState(SequraFE.appStates.PAYMENT + '-' + SequraFE.appPages.PAYMENT.METHODS) :
                         this.goToState(currentState, null, true);
@@ -237,7 +250,12 @@ SequraFE.appPages = {
                 return;
             }
 
-            if (!dataStore.connectionSettings?.username || dataStore.countrySettings?.length === 0 || (SequraFE.pages.onboarding.includes(SequraFE.appStates.ONBOARDING.WIDGETS) && widgetSettings?.useWidgets === undefined) || SequraFE.state.getCredentialsChanged()) {
+            if (
+                !dataStore.connectionSettings?.username ||
+                dataStore.countrySettings?.length === 0 ||
+                (SequraFE.pages.onboarding.includes(SequraFE.appPages.ONBOARDING.WIDGETS) && widgetSettings?.useWidgets === undefined) ||
+                SequraFE.state.getCredentialsChanged()
+            ) {
                 this.goToState(SequraFE.appStates.ONBOARDING, additionalConfig, true);
 
                 return;
@@ -383,10 +401,13 @@ SequraFE.appPages = {
                 connectionSettings: null,
                 countrySettings: null,
                 generalSettings: null,
+                orderStatusSettings: null,
                 widgetSettings: null,
                 paymentMethods: null,
                 sellingCountries: null,
-                shopCategories: null
+                shopCategories: null,
+                shopOrderStatuses: null,
+                shopPaymentMethods: null
             };
         }
     }

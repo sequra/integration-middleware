@@ -176,9 +176,8 @@ table tr th {
 }
 
 #sq-page-wrapper {
-  display: flex;
+  min-width: 100vw;
   min-height: 100vh;
-  justify-content: flex-end;
   padding: 30px 20px 60px 30px;
   background: #f3f6f9;
 }
@@ -189,12 +188,7 @@ table tr th {
 #sq-page-wrapper .sq-page-content-wrapper .sq-version-header {
   position: relative;
   height: 25px;
-  margin-bottom: 126px;
-}
-@media (max-width: 1023.98px) {
-  #sq-page-wrapper .sq-page-content-wrapper .sq-version-header {
-    margin-bottom: 40px;
-  }
+  margin-bottom: 40px;
 }
 #sq-page-wrapper .sq-page-content-wrapper .sq-content-row {
   display: flex;
@@ -242,6 +236,8 @@ table tr th {
   background: #fff;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   padding: 24px;
+  width: 100%;
+  max-width: 1150px;
 }
 #sq-page-wrapper .sq-page-content-wrapper.sqv--onboarding .sq-content {
   max-width: 660px;
@@ -276,8 +272,10 @@ table tr th {
 #sq-page-wrapper .sq-page-content-wrapper.sqv--payments .sq-content-inner .sq-table-heading .sqm--table-dropdown .sqp-field-subtitle {
   color: #B1AEBA;
 }
-#sq-page-wrapper .sq-page-content-wrapper.sqv--settings .sq-content-inner {
+#sq-page-wrapper .sq-page-content-wrapper.sqv--settings .sq-content {
   max-width: 835px;
+}
+#sq-page-wrapper .sq-page-content-wrapper.sqv--settings .sq-content-inner {
   width: 100%;
   padding: 32px 48px 52px 48px;
 }
@@ -287,10 +285,15 @@ table tr th {
   }
 }
 
-.sqv--connect .sq-link-button {
+.sq-link-button {
   color: #00C2A3;
   text-decoration: underline;
 }
+
+.sq-link-button:hover {
+  color: #00C2A3;
+}
+
 .sqv--connect .sq-info-button {
   color: #00C2A3;
 }
@@ -400,7 +403,7 @@ table tr th {
   content: "\e90a";
   line-height: 1;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
 }
 .sq-modal .sqp-modal-content .sqp-title {
   font-weight: 600;
@@ -522,6 +525,24 @@ table tr th {
 }
 .sq-button.sqm--medium {
   padding: 10px 16px;
+}
+.sq-button.sqt--form-primary {
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+}
+.sq-button.sqt--form-primary:hover, .sq-button.sqt--form-primary:focus {
+  background-color: #a5afbd;
+  color: #000;
+}
+.sq-button.sqt--form-secondary {
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+}
+.sq-button.sqt--form-secondary:hover {
+  background-color: #a5afbd;
+  color: #000;
 }
 .sq-button.sqt--primary {
   background-color: #00C2A3;
@@ -675,30 +696,30 @@ table tr th {
 .sq-page-header .sqp-menu-items {
   display: flex;
   align-items: center;
-  column-gap: 16px;
-  padding: 12px;
-  border: 1px solid #F3F2F2;
-  border-radius: 12px;
-}
-@media (max-width: 1023.98px) {
-  .sq-page-header .sqp-menu-items {
-    width: max-content;
-  }
+  column-gap: 1px;
+  padding: 0;
+  border-radius: 50px;
+  overflow: hidden;
+  background-color: #f4f4f4;
 }
 .sq-page-header .sqp-menu-items a {
-  color: #394962;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  width: 150px;
+  color: #656566;
   font-size: 14px;
   padding: 8px;
-  border-radius: 6px;
   transition: all 0.2s;
 }
 .sq-page-header .sqp-menu-items a:hover, .sq-page-header .sqp-menu-items a:focus {
-  color: #01C2A3;
-  background: rgba(1, 194, 163, 0.09);
+  color: #ffffff;
+  background: #1c1c1c;
+  text-decoration: none;
 }
 .sq-page-header .sqp-menu-items a.sqs--active {
-  color: #01C2A3;
-  background: rgba(1, 194, 163, 0.09);
+  color: #ffffff;
+  background: #1c1c1c;
   pointer-events: none;
 }
 .sq-page-header .sq-mode-badge {
@@ -1148,7 +1169,7 @@ table tr th {
   content: "\e911";
   line-height: 1;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
 }
 .sq-password span:hover:before {
   font-weight: 600;
@@ -1731,6 +1752,9 @@ table tr th {
   transition: color 0.2s;
   padding: 10px 20px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 .sq-settings-sidebar .sq-sidebar-item .sq-sidebar-link:before {
   position: relative;
@@ -1750,28 +1774,28 @@ table tr th {
   content: "\e903";
   line-height: 1;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
 }
 .sq-settings-sidebar .sq-sidebar-item .sq-sidebar-link.sqm--connection:before {
   font-family: "sq-icons";
   content: "\e902";
   line-height: 1;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
 }
 .sq-settings-sidebar .sq-sidebar-item .sq-sidebar-link.sqm--order:before {
   font-family: "sq-icons";
   content: "\e900";
   line-height: 1;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
 }
 .sq-settings-sidebar .sq-sidebar-item .sq-sidebar-link.sqm--widget:before {
   font-family: "sq-icons";
   content: "\e901";
   line-height: 1;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 * + .sqp-flash-message-wrapper, .sqp-flash-message-wrapper + * {

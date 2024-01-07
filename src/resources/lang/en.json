@@ -74,7 +74,11 @@
       "generalSettings": {
         "captureDelayError": "Capture delay number of days must be between 1 and 7.",
         "retentionPeriodError": "Minimum number of retention period is 60.",
-        "categories": "Failed to retrieve categories."
+        "categories": "Failed to retrieve categories.",
+        "paymentMethods": "Failed to retrieve active payment methods."
+      },
+      "orderStatusSettings" : {
+        "orderStatuses": "Failed to retrieve order statuses."
       },
       "webhooks": {
         "merchantError": "Merchant with id %s not found.",
@@ -271,6 +275,10 @@
     "showCheckoutAsHostedPage": {
       "label": "Show SeQura checkout as hosted page",
       "description": "Specify whether SeQura checkout should be displayed as hosted page or popup."
+    },
+    "replacementPaymentMethod" : {
+      "label": "Replacement Payment Method",
+      "description": "Define which offline payment method in shop will be replaced by SeQura payment options during the checkout process. Please note that this payment method needs to be active and that it cannot be used while SeQura payments are active on this store."
     },
     "sendOrderReports": {
       "label": "Send orders reports periodically to SeQura",

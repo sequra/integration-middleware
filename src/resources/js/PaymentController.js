@@ -96,10 +96,10 @@ if (!window.SequraFE) {
                 generator.createElement('div', 'sq-page-content-wrapper sqv--payments', '', null, [
                     SequraFE.components.PageHeader.create(
                         {
-                            currentVersion: version.current,
+                            currentVersion: version?.current,
                             newVersion: {
-                                versionLabel: version.new,
-                                versionUrl: version.downloadNewVersionUrl
+                                versionLabel: version?.new,
+                                versionUrl: version?.downloadNewVersionUrl
                             },
                             mode: connectionSettings.environment === 'live' ? connectionSettings.environment : 'test',
                             activeStore: currentStoreId,
