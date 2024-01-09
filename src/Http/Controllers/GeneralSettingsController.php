@@ -6,7 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
 use SeQura\Core\BusinessLogic\AdminAPI\GeneralSettings\Requests\GeneralSettingsRequest;
-use SeQura\Core\BusinessLogic\Domain\GeneralSettings\Exceptions\EmptyCategoryParameterException;
+use SeQura\Core\BusinessLogic\Domain\GeneralSettings\Exceptions\FailedToRetrieveCategoriesException;
+use SeQura\Core\BusinessLogic\Domain\GeneralSettings\Exceptions\FailedToRetrieveShopPaymentMethodsException;
 
 /**
  * Class DisconnectController
@@ -35,8 +36,6 @@ class GeneralSettingsController extends BaseController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @throws EmptyCategoryParameterException
      */
     public function setGeneralSettings(Request $request): JsonResponse
     {
@@ -45,11 +44,12 @@ class GeneralSettingsController extends BaseController
             ->generalSettings($request->get('storeId'))
             ->saveGeneralSettings(
                 new GeneralSettingsRequest(
-                    $data['showSeQuraCheckoutAsHostedPage'],
                     $data['sendOrderReportsPeriodicallyToSeQura'],
+                    $data['showSeQuraCheckoutAsHostedPage'],
                     $data['allowedIPAddresses'],
                     $data['excludedProducts'],
-                    $data['excludedCategories']
+                    $data['excludedCategories'],
+                    $data['replacementPaymentMethod']
                 )
             );
 
@@ -57,5 +57,37 @@ class GeneralSettingsController extends BaseController
             $response->toArray(),
             $response->isSuccessful() ? 200 : $response->toArray()['errorCode']
         );
+    }
+
+    /**
+     * Returns all shop categories.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     *
+     * @throws FailedToRetrieveCategoriesException
+     */
+    public function getShopCategories(Request $request): JsonResponse
+    {
+        $data = AdminAPI::get()->generalSettings($request->get('storeId'))->getShopCategories();
+
+        return response()->json($data->toArray());
+    }
+
+    /**
+     * Returns all shop payment methods.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     *
+     * @throws FailedToRetrieveShopPaymentMethodsException
+     */
+    public function getShopPaymentMethods(Request $request): JsonResponse
+    {
+        $data = AdminAPI::get()->generalSettings($request->get('storeId'))->getShopPaymentMethods();
+
+        return response()->json($data->toArray());
     }
 }
