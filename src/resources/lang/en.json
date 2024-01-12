@@ -14,6 +14,7 @@
     "merchant": "Merchant:",
     "settings": "Settings",
     "paymentMethods": "Payment methods",
+    "transactionLogs": "Transaction logs",
     "changesSaved": "Changes saved successfully.",
     "noItemsAvailable": "No items available",
     "mode": {
@@ -77,7 +78,7 @@
         "categories": "Failed to retrieve categories.",
         "paymentMethods": "Failed to retrieve active payment methods."
       },
-      "orderStatusSettings" : {
+      "orderStatusSettings": {
         "orderStatuses": "Failed to retrieve order statuses."
       },
       "webhooks": {
@@ -130,6 +131,35 @@
     "maximumAmount": "Maximum amount",
     "availableFrom": "Available from",
     "availableTo": "Available to"
+  },
+  "transaction": {
+    "title": "Transaction logs",
+    "description": "Transaction logs description",
+    "noLogs": "There are no transaction logs available",
+    "orderId": "Order ID",
+    "paymentMethod": "Payment method",
+    "dateTime": "Date and time",
+    "eventType": "Event type",
+    "successful": "Successful",
+    "status": {
+      "title": "Status",
+      "created": "Created",
+      "queued": "Queued",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "failed": "Failed",
+      "aborted": "Aborted"
+    },
+    "details": {
+      "title": "Details",
+      "label": "Show details",
+      "reason": "Reason:",
+      "failureDescription": "Notification processing failure description:",
+      "sequraLink": "Go to order in the SeQura portal",
+      "shopLink": "Go to shop order"
+    },
+    "yes": "Yes",
+    "no": "No"
   },
   "connection": {
     "title": {
@@ -276,7 +306,7 @@
       "label": "Show SeQura checkout as hosted page",
       "description": "Specify whether SeQura checkout should be displayed as hosted page or popup."
     },
-    "replacementPaymentMethod" : {
+    "replacementPaymentMethod": {
       "label": "Replacement Payment Method",
       "description": "Define which offline payment method in shop will be replaced by SeQura payment options during the checkout process. Please note that this payment method needs to be active and that it cannot be used while SeQura payments are active on this store."
     },

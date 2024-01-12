@@ -5,7 +5,8 @@ if (!window.SequraFE) {
 SequraFE.appStates = {
     ONBOARDING: 'onboarding',
     SETTINGS: 'settings',
-    PAYMENT: 'payment'
+    PAYMENT: 'payment',
+    TRANSACTION: 'transactions'
 };
 
 SequraFE.appPages = {
@@ -22,6 +23,9 @@ SequraFE.appPages = {
     },
     PAYMENT: {
         METHODS: 'methods'
+    },
+    TRANSACTION: {
+        LOGS: 'logs'
     }
 };
 
@@ -69,6 +73,7 @@ SequraFE.appPages = {
      * @property {Category[] | null} shopCategories
      * @property {ShopOrderStatus[] | null} shopOrderStatuses
      * @property {ShopPaymentMethod[] | null} shopPaymentMethods
+     * @property {TransactionLog[] | null} transactionLogs
      */
 
     /**
@@ -101,7 +106,8 @@ SequraFE.appPages = {
             sellingCountries: null,
             shopCategories: null,
             shopOrderStatuses: null,
-            shopPaymentMethods: null
+            shopPaymentMethods: null,
+            transactionLogs: null
         };
 
         /**
@@ -177,6 +183,12 @@ SequraFE.appPages = {
                 let page = this.getPage();
                 if (stateRes.state === SequraFE.appStates.ONBOARDING) {
                     this.goToState(SequraFE.appStates.ONBOARDING, null, true);
+
+                    return;
+                }
+
+                if (SequraFE.pages.transactions?.includes(page)) {
+                    this.goToState(SequraFE.appStates.TRANSACTION + '-' + SequraFE.appPages.TRANSACTION.LOGS, null, true)
 
                     return;
                 }
@@ -407,7 +419,8 @@ SequraFE.appPages = {
                 sellingCountries: null,
                 shopCategories: null,
                 shopOrderStatuses: null,
-                shopPaymentMethods: null
+                shopPaymentMethods: null,
+                transactionLogs: null
             };
         }
     }
