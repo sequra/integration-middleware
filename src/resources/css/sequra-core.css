@@ -593,7 +593,7 @@ table tr th {
   padding: 12px 20px;
 }
 .sq-button.sqt--form-primary:hover, .sq-button.sqt--form-primary:focus {
-  background-color: #f3f6f9;
+  background-color: #f4f4f4;
   color: #000;
 }
 .sq-button.sqt--form-secondary {
@@ -604,7 +604,7 @@ table tr th {
   padding: 12px 20px;
 }
 .sq-button.sqt--form-secondary:hover {
-  background-color: #f3f6f9;
+  background-color: #f4f4f4;
   color: #000;
 }
 .sq-button.sqt--text {

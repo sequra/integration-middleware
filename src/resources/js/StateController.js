@@ -187,7 +187,7 @@ SequraFE.appPages = {
                     return;
                 }
 
-                if (SequraFE.pages.transactions?.includes(page)) {
+                if (SequraFE.pages?.transactions?.includes(page)) {
                     this.goToState(SequraFE.appStates.TRANSACTION + '-' + SequraFE.appPages.TRANSACTION.LOGS, null, true)
 
                     return;
