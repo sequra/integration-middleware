@@ -13,6 +13,13 @@ class SeQuraMiddlewareServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->publishes(
+            [
+                __DIR__ . '/database/migrations/' => database_path('migrations'),
+            ],
+            'migrations'
+        );
+
         $this->loadViewsFrom(__DIR__ . '/resources/views', static::RESOURCE_NAMESPACE);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/sequra.php');

@@ -196,7 +196,7 @@ if (!window.SequraFE) {
                                 })
                             )
                     } : {},
-                    {label: transactionLog.executionId, className: 'sq-row-id sqs--hidden'}
+                    {label: transactionLog.executionId.toString(), className: 'sq-row-id sqs--hidden'}
                 ];
             });
         }
