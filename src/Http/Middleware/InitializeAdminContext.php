@@ -18,8 +18,13 @@ class InitializeAdminContext
      */
     public function handle(Request $request, Closure $next): mixed
     {
+        $storeId = $request->get('storeId');
+        if(!$storeId){
+            $storeId = $request->get('m_storeId');
+        }
+
         $configService = ServiceRegister::getService(ConfigurationManager::class);
-        $configService->setContext($request->get('storeId'));
+        $configService->setContext($storeId);
 
         return $next($request);
     }

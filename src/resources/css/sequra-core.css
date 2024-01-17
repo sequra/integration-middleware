@@ -378,12 +378,15 @@ table tr th {
 .sq-table-container .sqp-details .sq-link-button {
   color: #0075ff;
   text-decoration: none;
+  display: flex;
 }
 .sq-table-container .sqp-details .sq-link-button:after {
   font-family: "sq-icons";
+  content: "\e916";
   line-height: 1;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 6px;
+  padding: 5px 0 0 4px;
 }
 .sq-table-container .sqp-details-wrapper {
   display: flex;
