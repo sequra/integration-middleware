@@ -43,9 +43,10 @@ if (!window.SequraFE) {
                 if (response.status === 400) {
                     return response.json().then(errorCallback);
                 }
-            } catch (e) {}
+            } catch (e) {
+            }
 
-            return errorCallback({ status: response.status, error: response.statusMessage });
+            return errorCallback({status: response.status, error: response.statusMessage});
         };
 
         /**
@@ -103,8 +104,16 @@ if (!window.SequraFE) {
                 url = url.replace('https:', '');
                 url = url.replace('http:', '');
 
+                let authHeader = {};
+                if (SequraFE?.integration?.authToken) {
+                    authHeader = {
+                        'Authorization': `Bearer ${SequraFE.integration.authToken}`
+                    }
+                }
+
                 const headers = {
                     'Content-Type': 'application/json',
+                    ...authHeader,
                     ...(customHeader || {})
                 };
 
@@ -118,7 +127,7 @@ if (!window.SequraFE) {
                         : data
                     : undefined;
 
-                fetch(url, { method, headers, body }).then((response) => {
+                fetch(url, {method, headers, body}).then((response) => {
                     if (callUUID !== SequraFE.StateUUIDService.getStateUUID()) {
                         // Obsolete request. The app has changed the original state (page) that issued the call.
                         console.log('cancelling an obsolete request', url);
