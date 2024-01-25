@@ -20,7 +20,7 @@ class InitializeAdminContext
     {
         $storeId = $request->get('storeId');
         if(!$storeId){
-           $storeId = $request->get('m_storeId');
+            $storeId = $request->get('m_storeId');
         }
 
         $configService = ServiceRegister::getService(ConfigurationManager::class);
