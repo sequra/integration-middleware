@@ -2,8 +2,6 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use SeQura\Middleware\ORM\Eloquent\Process;
-
 /**
  * Class ProcessRepository
  *
@@ -11,11 +9,13 @@ use SeQura\Middleware\ORM\Eloquent\Process;
  */
 class ProcessRepository extends BaseRepository
 {
+    protected const TABLE_NAME = 'processes';
+
     /**
      * @inheritDoc
      */
-    protected function getEloquentModelClassName(): string
+    protected function getTableName(): string
     {
-        return Process::class;
+        return static::TABLE_NAME;
     }
 }

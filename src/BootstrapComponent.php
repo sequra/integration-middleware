@@ -26,8 +26,8 @@ use SeQura\Core\Infrastructure\TaskExecution\Process;
 use SeQura\Core\Infrastructure\TaskExecution\QueueItem;
 use SeQura\Middleware\ORM\Repositories\ConfigurationRepository;
 use SeQura\Middleware\ORM\Repositories\EntityRepository;
-use SeQura\Middleware\ORM\Repositories\PDOQueueItemRepository;
 use SeQura\Middleware\ORM\Repositories\ProcessRepository;
+use SeQura\Middleware\ORM\Repositories\QueueItemRepository;
 use SeQura\Middleware\ORM\Repositories\TenantRepository;
 use SeQura\Middleware\Service\BusinessLogic\DisconnectService;
 use SeQura\Middleware\Service\BusinessLogic\VersionService;
@@ -113,7 +113,7 @@ class BootstrapComponent extends BaseBootstrapComponent
         parent::initRepositories();
 
         RepositoryRegistry::registerRepository(ConfigEntity::class, ConfigurationRepository::class);
-        RepositoryRegistry::registerRepository(QueueItem::class, PDOQueueItemRepository::class);
+        RepositoryRegistry::registerRepository(QueueItem::class, QueueItemRepository::class);
         RepositoryRegistry::registerRepository(Process::class, ProcessRepository::class);
         RepositoryRegistry::registerRepository(Tenant::class, TenantRepository::class);
         RepositoryRegistry::registerRepository(SeQuraOrder::class, EntityRepository::class);

@@ -2,7 +2,6 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
 use JsonException;
 use SeQura\Core\Infrastructure\ORM\Entity;
 use SeQura\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
@@ -10,7 +9,7 @@ use SeQura\Core\Infrastructure\ORM\Interfaces\ConditionallyDeletes;
 use SeQura\Core\Infrastructure\ORM\Interfaces\RepositoryInterface;
 use SeQura\Core\Infrastructure\ORM\QueryFilter\Operators;
 use SeQura\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use SeQura\Middleware\ORM\Transformers\EloquentTransformer;
+use SeQura\Middleware\ORM\Transformers\OrmEntityTransformer;
 
 /**
  * Class BaseRepository
@@ -19,7 +18,10 @@ use SeQura\Middleware\ORM\Transformers\EloquentTransformer;
  */
 abstract class BaseRepository implements RepositoryInterface, ConditionallyDeletes
 {
-    protected ?EloquentTransformer $transformer = null;
+    protected ?OrmEntityTransformer $transformer = null;
+    /**
+     * @var string
+     */
     protected string $entityClass;
 
     /**
@@ -27,7 +29,7 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      *
      * @return string
      */
-    abstract protected function getEloquentModelClassName(): string;
+    abstract protected function getTableName(): string;
 
     /**
      * Returns full class name.
@@ -55,9 +57,8 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      * @param QueryFilter|null $filter Filter for query.
      *
      * @return Entity[] A list of found entities ot empty array.
-     *
-     * @throws JsonException
      * @throws QueryFilterInvalidParamException
+     * @throws JsonException
      */
     public function select(QueryFilter $filter = null): array
     {
@@ -70,12 +71,10 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
     /**
      * Executes select query and returns first result.
      *
-     * @param QueryFilter|null $filter Filter for query.
+     * @param QueryFilter $filter Filter for query.
      *
      * @return Entity|null First found entity or NULL.
-     *
-     * @throws JsonException
-     * @throws QueryFilterInvalidParamException
+     * @throws QueryFilterInvalidParamException|JsonException
      */
     public function selectOne(QueryFilter $filter = null): ?Entity
     {
@@ -95,19 +94,36 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      * @param Entity $entity Entity to be saved.
      *
      * @return int Identifier of saved entity.
-     *
-     * @throws QueryFilterInvalidParamException|JsonException
+     * @throws QueryFilterInvalidParamException
      */
     public function save(Entity $entity): int
     {
         $data = $this->getTransformer()->prepareDataForInsertOrUpdate($entity);
         $data['type'] = $entity->getConfig()->getType();
-        /** @var Model $eloquentModel */
-        $eloquentModel = $this->getTransformer()->newQuery()->create($data);
-        $entity->setId($eloquentModel->id);
+        $id = $this->getTransformer()->newQuery()->insertGetId($data);
+        $entity->setId($id);
         $this->update($entity);
 
-        return $eloquentModel->id;
+        return $id;
+    }
+
+    /**
+     * Executes mass insert query for all provided entities
+     *
+     * @param Entity[] $entities
+     *
+     * @throws JsonException
+     */
+    public function massInsert(array $entities): void
+    {
+        $data = [];
+        foreach ($entities as $entity) {
+            $entityData = $this->getTransformer()->prepareDataForInsertOrUpdate($entity);
+            $entityData['type'] = $entity->getConfig()->getType();
+            $data[] = $entityData;
+        }
+
+        $this->getTransformer()->newQuery()->insert($data);
     }
 
     /**
@@ -116,8 +132,7 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      * @param Entity $entity Entity to be updated.
      *
      * @return bool TRUE if operation succeeded; otherwise, FALSE.
-     *
-     * @throws QueryFilterInvalidParamException|JsonException
+     * @throws QueryFilterInvalidParamException
      */
     public function update(Entity $entity): bool
     {
@@ -137,7 +152,6 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      * @param Entity $entity Entity to be deleted.
      *
      * @return bool TRUE if operation succeeded; otherwise, FALSE.
-     *
      * @throws QueryFilterInvalidParamException
      */
     public function delete(Entity $entity): bool
@@ -151,41 +165,40 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
     /**
      * Counts records that match filter criteria.
      *
-     * @param QueryFilter|null $filter Filter for query.
+     * @param QueryFilter $filter Filter for query.
      *
      * @return int Number of records that match filter criteria.
-     *
      * @throws QueryFilterInvalidParamException
      */
     public function count(QueryFilter $filter = null): int
     {
-        return $this->getTransformer()->transformFilter($filter)->count();
+        $queryBuilder = $this->getTransformer()->transformFilter($filter);
+
+        return $queryBuilder->count();
     }
 
     /**
      * Deletes records identified by the query.
      *
-     * @param QueryFilter|null $queryFilter
+     * @param QueryFilter $filter
      *
      * @return int
-     *
      * @throws QueryFilterInvalidParamException
      */
-    public function deleteWhere(QueryFilter $queryFilter = null): int
+    public function deleteWhere(QueryFilter $filter = null): int
     {
-        return $this->getTransformer()->transformFilter($queryFilter)->delete();
+        return $this->getTransformer()->transformFilter($filter)->delete();
     }
 
     /**
-     * Gets EloquentTransformer instance.
-     *
-     * @return EloquentTransformer
+     * @return OrmEntityTransformer
      */
-    protected function getTransformer(): EloquentTransformer
+    protected function getTransformer(): OrmEntityTransformer
     {
         if ($this->transformer === null) {
+            /** @var Entity $ormInstance */
             $ormInstance = new $this->entityClass();
-            $this->transformer = new EloquentTransformer($this->getEloquentModelClassName(), $ormInstance);
+            $this->transformer = new OrmEntityTransformer($this->getTableName(), $ormInstance);
         }
 
         return $this->transformer;

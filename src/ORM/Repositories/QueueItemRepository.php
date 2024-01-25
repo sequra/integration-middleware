@@ -2,8 +2,8 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use Illuminate\Support\Facades\DB;
 use JsonException;
+use SeQura\Core\Infrastructure\ORM\Entity;
 use SeQura\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
 use SeQura\Core\Infrastructure\ORM\Interfaces\QueueItemRepository as QueueItemRepositoryInterface;
 use SeQura\Core\Infrastructure\ORM\QueryFilter\Operators;
@@ -13,7 +13,7 @@ use SeQura\Core\Infrastructure\ServiceRegister;
 use SeQura\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException;
 use SeQura\Core\Infrastructure\TaskExecution\QueueItem;
 use SeQura\Core\Infrastructure\Utility\TimeProvider;
-use SeQura\Middleware\ORM\Eloquent\ExecutionQueueItem;
+use SeQura\Middleware\ORM\Transformers\QueueItemEntityTransformer;
 
 /**
  * Class QueueItemRepository
@@ -22,19 +22,7 @@ use SeQura\Middleware\ORM\Eloquent\ExecutionQueueItem;
  */
 class QueueItemRepository extends BaseRepository implements QueueItemRepositoryInterface
 {
-    protected const QUEUE_TABLE_NAME = 'execution_queue_items';
-    protected const QUEUE_STATUS_INDEX = 'index_1';
-    protected const QUEUE_NAME_INDEX = 'index_3';
-    protected const QUEUE_LAST_UPDATE_INDEX = 'index_7';
-    protected const QUEUE_PRIORITY_INDEX = 'index_8';
-
-    /**
-     * @return string
-     */
-    protected function getEloquentModelClassName(): string
-    {
-        return ExecutionQueueItem::class;
-    }
+    protected const TABLE_NAME = 'execution_queue_items';
 
     /**
      * Finds list of earliest queued queue items per queue for given priority.
@@ -43,17 +31,16 @@ class QueueItemRepository extends BaseRepository implements QueueItemRepositoryI
      *      - For one queue only one (oldest queued) item should be returned
      *      - Only queue items with given priority can be retrieved.
      *
-     * @param int $priority Queue item priority.
+     * @param int $priority Queue item priority priority.
      * @param int $limit Result set limit. By default max 10 earliest queue items will be returned
      *
      * @return QueueItem[] Found queue item list
-     *
      * @throws JsonException
      */
     public function findOldestQueuedItems($priority, $limit = 10): array
     {
         $ids = $this->getQueueIdsForExecution($priority, $limit);
-        $query = DB::table(static::QUEUE_TABLE_NAME);
+        $query = $this->getTransformer()->newQuery();
         $records = $query->whereIn('id', $ids)
             ->orderBy('id')
             ->get()
@@ -66,8 +53,7 @@ class QueueItemRepository extends BaseRepository implements QueueItemRepositoryI
                         return (array) $r;
                     },
                     $records
-                    )
-                )
+                ))
             : [];
     }
 
@@ -100,14 +86,16 @@ class QueueItemRepository extends BaseRepository implements QueueItemRepositoryI
             if ($value === null) {
                 $filter->where($name, Operators::NULL);
             } else {
-                $filter->where($name, Operators::EQUALS, $value);
+                $filter->where($name, Operators::EQUALS, $value ?? '');
             }
         }
 
         /** @var QueueItem $item */
         $item = $this->selectOne($filter);
         if ($item === null) {
-            throw new QueueItemSaveException("Can not update queue item with id {$queueItem->getId()}. Item not found.");
+            throw new QueueItemSaveException(
+                "Can not update queue item with id {$queueItem->getId()}. Item not found."
+            );
         }
 
         $this->update($queueItem);
@@ -125,20 +113,17 @@ class QueueItemRepository extends BaseRepository implements QueueItemRepositoryI
         }
 
         $lastUpdateTime = IndexHelper::castFieldValue($this->getTimeProvider()->getCurrentLocalTime(), 'integer');
-        $query = DB::table(static::QUEUE_TABLE_NAME);
-        $query->select(self::QUEUE_NAME_INDEX)
+        $this->getTransformer()->newQuery()
             ->whereIn('id', $ids)
             ->update([
                 'status' => $status,
                 'last_update_time' => $lastUpdateTime,
-                static::QUEUE_STATUS_INDEX => $status,
-                static::QUEUE_LAST_UPDATE_INDEX => $lastUpdateTime,
+                $this->getTransformer()->resolveColumn('status') => $status,
+                $this->getTransformer()->resolveColumn('lastUpdateTimestamp') => $lastUpdateTime,
             ]);
     }
 
     /**
-     * Returns queue ids for execution.
-     *
      * @param int $priority
      * @param int $limit
      *
@@ -147,21 +132,22 @@ class QueueItemRepository extends BaseRepository implements QueueItemRepositoryI
     protected function getQueueIdsForExecution(int $priority, int $limit): array
     {
         $runningQueueNames = $this->getRunningQueueNames();
+        $castedPriorityValue = IndexHelper::castFieldValue($priority, 'integer');
 
         // Do NOT use order by nor limit in this query since it is most performant without them, especially do not
         // use both order and limit in this query because index usage will be canceled and query will be slow.
-        // Do NOT use limit here for because it can lead to results that are not correct (not the oldest queue is returned)
+        // Do NOT use limit here for because it can lead to results that are not correct (not oldest queue is returned)
         // since we can't use order here.
         // Since we only return ids here, limiting result set is not crucial since we group by queue and memory is the
         // main constraining factor.
-        $query = DB::table(static::QUEUE_TABLE_NAME);
+        $query = $this->getTransformer()->newQuery();
         $query->selectRaw('min(id) as id')
-            ->where(static::QUEUE_PRIORITY_INDEX, '=', IndexHelper::castFieldValue($priority, 'integer'))
-            ->where(static::QUEUE_STATUS_INDEX, '=', QueueItem::QUEUED)
-            ->groupBy([static::QUEUE_NAME_INDEX]);
+            ->where($this->getTransformer()->resolveColumn('priority'), '=', $castedPriorityValue)
+            ->where($this->getTransformer()->resolveColumn('status'), '=', QueueItem::QUEUED)
+            ->groupBy([$this->getTransformer()->resolveColumn('queueName')]);
 
         if (!empty($runningQueueNames)) {
-            $query->whereNotIn(static::QUEUE_NAME_INDEX, $runningQueueNames);
+            $query->whereNotIn($this->getTransformer()->resolveColumn('queueName'), $runningQueueNames);
         }
 
         $result = $query->get()->toArray();
@@ -173,23 +159,43 @@ class QueueItemRepository extends BaseRepository implements QueueItemRepositoryI
     }
 
     /**
-     * Returns the names of running queues.
-     *
      * @return array
      */
     protected function getRunningQueueNames(): array
     {
-        $query = DB::table(static::QUEUE_TABLE_NAME);
-        $query->select(static::QUEUE_NAME_INDEX)
-            ->where(static::QUEUE_STATUS_INDEX, '=', QueueItem::IN_PROGRESS);
+        $query = $this->getTransformer()->newQuery();
+        $query->select($this->getTransformer()->resolveColumn('queueName'))
+            ->where($this->getTransformer()->resolveColumn('status'), '=', QueueItem::IN_PROGRESS);
 
         $result = $query->get()->toArray();
 
-        return array_column($result, self::QUEUE_NAME_INDEX);
+        return array_column($result, $this->getTransformer()->resolveColumn('queueName'));
     }
 
     /**
-     * Returns an instance of time provider.
+     * @inheritDoc
+     */
+    protected function getTableName(): string
+    {
+        return static::TABLE_NAME;
+    }
+
+    /**
+     * @return QueueItemEntityTransformer
+     */
+    protected function getTransformer(): QueueItemEntityTransformer
+    {
+        if ($this->transformer === null) {
+            /** @var Entity $ormInstance */
+            $ormInstance = new $this->entityClass();
+            $this->transformer = new QueueItemEntityTransformer($this->getTableName(), $ormInstance);
+        }
+
+        return $this->transformer;
+    }
+
+    /**
+     * Provides time provider.
      *
      * @return TimeProvider
      */
