@@ -84,6 +84,8 @@ if (!window.SequraFE) {
         const useReplacementPaymentMethod = SequraFE?.generalSettings?.useReplacementPaymentMethod ?? false
         /** @type boolean */
         const useAllowedIPAddresses = SequraFE?.generalSettings?.useAllowedIPAddresses ?? true
+        /** @type boolean */
+        const useOrderReporting = SequraFE?.generalSettings?.useOrderReporting ?? false;
 
         /** @type GeneralSettings */
         const defaultGeneralSettingsData = {
@@ -157,12 +159,12 @@ if (!window.SequraFE) {
                         description: 'generalSettings.showCheckoutAsHostedPage.description',
                         onChange: (value) => handleGeneralSettingsChange('showSeQuraCheckoutAsHostedPage', value)
                     }) : [],
-                    generator.createToggleField({
+                    useOrderReporting ? generator.createToggleField({
                         value: changedGeneralSettings.sendOrderReportsPeriodicallyToSeQura,
                         label: 'generalSettings.sendOrderReports.label',
                         description: 'generalSettings.sendOrderReports.description',
                         onChange: (value) => handleGeneralSettingsChange('sendOrderReportsPeriodicallyToSeQura', value)
-                    }),
+                    }) : [],
                     useReplacementPaymentMethod ? generator.createDropdownField({
                         value: changedGeneralSettings.replacementPaymentMethod,
                         label: 'generalSettings.replacementPaymentMethod.label',
