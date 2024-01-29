@@ -234,7 +234,8 @@ if (!window.SequraFE) {
                 return;
             }
 
-            if (hasChange() && activeSettings.environment !== changedSettings.environment) {
+            if (hasChange() && activeSettings.environment !== changedSettings.environment
+                && configuration.appState !== SequraFE.appStates.ONBOARDING) {
                 showConfirmModal().then((confirmed) => {
                     if (!confirmed) {
                         return;
