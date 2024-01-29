@@ -586,21 +586,25 @@ table tr th {
   padding: 10px 16px;
 }
 .sq-button.sqt--form-primary {
+  border: 2px solid #000;
+  border-radius: 8px;
   background-color: #000;
-  border-color: #000;
   color: #fff;
+  padding: 12px 20px;
 }
 .sq-button.sqt--form-primary:hover, .sq-button.sqt--form-primary:focus {
-  background-color: #a5afbd;
+  background-color: #f3f6f9;
   color: #000;
 }
 .sq-button.sqt--form-secondary {
-  border: 1px solid #000;
+  border: 2px solid #000;
+  border-radius: 8px;
   background-color: #fff;
   color: #000;
+  padding: 12px 20px;
 }
 .sq-button.sqt--form-secondary:hover {
-  background-color: #a5afbd;
+  background-color: #f3f6f9;
   color: #000;
 }
 .sq-button.sqt--text {
@@ -1664,6 +1668,7 @@ table tr th {
   z-index: 10;
   padding: 6px 19px;
   margin-top: -52px;
+  margin-bottom: 15px;
   background: #fff;
 }
 .sq-page-footer .sqp-actions {
