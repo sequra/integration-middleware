@@ -473,6 +473,11 @@ if (!window.SequraFE) {
                     activeGeneralSettings = utilities.cloneObject(changedGeneralSettings);
                     activeCountryConfiguration = changedCountryConfiguration.map((utilities.cloneObject))
 
+                    if (configuration.appState !== SequraFE.appStates.ONBOARDING && hasCountryConfigurationChanged) {
+                        // if countries have been changed, payment methods should be retrieved from API again
+                        SequraFE.state.setData('paymentMethods', null);
+                    }
+
                     configuration.appState === SequraFE.appStates.SETTINGS &&
                     SequraFE.state.setData('generalSettings', activeGeneralSettings);
                     SequraFE.state.setData('countrySettings', activeCountryConfiguration);
