@@ -113,7 +113,7 @@ if (!window.SequraFE) {
                 generator.createButtonLink({
                     className: 'sq-link-button',
                     text: 'connection.description.endLink',
-                    href: 'https://en.sequra.com/',
+                    href: 'https://en.sequra.com/en/contact',
                     openInNewTab: true
                 })
             )
