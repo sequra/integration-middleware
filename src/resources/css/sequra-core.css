@@ -1162,6 +1162,10 @@ table tr th {
   border: none;
   padding: 2px;
   line-height: 0;
+  display: flex;
+  top: 3px;
+  align-items: center;
+  justify-content: center;
 }
 .sq-multi-item-selector .sqp-selected-item .sqp-remove-button:before {
   font-family: "sq-icons";
