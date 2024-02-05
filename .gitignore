@@ -1,2 +1,4 @@
 vendor
 phpunit.xml
+tests/.env
+tests/bootstrap/cache/*
