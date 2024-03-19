@@ -6,6 +6,7 @@ use SeQura\Middleware\Http\Controllers\DisconnectController;
 use SeQura\Middleware\Http\Controllers\GeneralSettingsController;
 use SeQura\Middleware\Http\Controllers\IntegrationController;
 use SeQura\Middleware\Http\Controllers\OnboardingController;
+use SeQura\Middleware\Http\Controllers\OrderStatusSettingsController;
 use SeQura\Middleware\Http\Controllers\PaymentMethodsController;
 use SeQura\Middleware\Http\Controllers\StoresController;
 use SeQura\Middleware\Http\Controllers\WidgetSettingsController;
@@ -23,7 +24,7 @@ Route::get(
     'SeQura\Middleware\Http\Controllers\HealthCheckController@check'
 )->name('healthz');
 
-Route::middleware(['sequra'])->prefix('sequra')->name('sequra')->group(static function () {
+Route::prefix('sequra')->name('sequra')->group(static function () {
     Route::group([
         'prefix' => '/admin',
         'as' => '.admin',
@@ -37,8 +38,13 @@ Route::middleware(['sequra'])->prefix('sequra')->name('sequra')->group(static fu
         Route::get('countries', [CountrySettingsController::class, 'getSellingCountries'])->name('.countries.get');
         Route::get('countries/settings', [CountrySettingsController::class, 'getCountrySettings'])->name('.countries.settings.get');
         Route::post('countries/settings', [CountrySettingsController::class, 'setCountrySettings'])->name('.countries.settings.set');
+        Route::get('order-statuses', [OrderStatusSettingsController::class, 'getShopOrderStatuses'])->name('.order-statuses.get');
+        Route::get('order-statuses/settings', [OrderStatusSettingsController::class, 'getOrderStatusSettings'])->name('.order-statuses.settings.get');
+        Route::post('order-statuses/settings', [OrderStatusSettingsController::class, 'setOrderStatusSettings'])->name('.order-statuses.settings.set');
         Route::get('general-settings', [GeneralSettingsController::class, 'getGeneralSettings'])->name('.general-settings.get');
         Route::post('general-settings', [GeneralSettingsController::class, 'setGeneralSettings'])->name('.general-settings.set');
+        Route::get('general-settings/categories', [GeneralSettingsController::class, 'getShopCategories'])->name('.general-settings.categories');
+        Route::get('general-settings/payment-methods', [GeneralSettingsController::class, 'getShopPaymentMethods'])->name('.general-settings.payment-methods');
         Route::get('integration/version', [IntegrationController::class, 'getVersion'])->name('.integration.version');
         Route::get('integration/state', [IntegrationController::class, 'getState'])->name('.integration.state');
         Route::get('integration/shop-name', [IntegrationController::class, 'getShopName'])->name('.integration.shop-name');
@@ -52,5 +58,3 @@ Route::middleware(['sequra'])->prefix('sequra')->name('sequra')->group(static fu
         Route::post('widget', [WidgetSettingsController::class, 'setWidgetSettings'])->name('.widget.set');
     });
 });
-
-

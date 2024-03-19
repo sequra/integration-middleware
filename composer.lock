@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c30a646cf7f3630c21dbb664e84fcc65",
+    "content-hash": "6319e2c60ed2edcf2705910c9c4c8c76",
     "packages": [
         {
             "name": "brick/math",
@@ -2320,16 +2320,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "dev-dev",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "git@github.com:sequra/integration-core.git",
-                "reference": "d3d2d01fc50d1dc1b7dc7562248930785d2d08d9"
+                "reference": "9aa1cf6cd4d9f10f0f7f9babb46c76606b8a852a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/d3d2d01fc50d1dc1b7dc7562248930785d2d08d9",
-                "reference": "d3d2d01fc50d1dc1b7dc7562248930785d2d08d9",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/9aa1cf6cd4d9f10f0f7f9babb46c76606b8a852a",
+                "reference": "9aa1cf6cd4d9f10f0f7f9babb46c76606b8a852a",
                 "shasum": ""
             },
             "require": {
@@ -2359,7 +2359,7 @@
                 "proprietary"
             ],
             "description": "Core SeQura integration library",
-            "time": "2023-10-16T11:28:24+00:00"
+            "time": "2024-03-19T09:28:55+00:00"
         },
         {
             "name": "symfony/console",
@@ -6559,9 +6559,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "sequra/integration-core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

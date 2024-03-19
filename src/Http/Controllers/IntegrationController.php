@@ -2,6 +2,7 @@
 
 namespace SeQura\Middleware\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
@@ -36,10 +37,13 @@ class IntegrationController extends BaseController
      * @param Request $request
      *
      * @return JsonResponse
+     *
+     * @throws Exception
      */
     public function getState(Request $request): JsonResponse
     {
-        $data = AdminAPI::get()->integration($request->get('storeId'))->getUIState();
+        $useWidgets = $request->get('usesWidgets') !== 'false';
+        $data = AdminAPI::get()->integration($request->get('storeId'))->getUIState($useWidgets);
 
         return response()->json($data->toArray());
     }

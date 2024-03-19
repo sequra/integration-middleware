@@ -6,6 +6,7 @@ use SeQura\Core\BusinessLogic\BootstrapComponent as BaseBootstrapComponent;
 use SeQura\Core\BusinessLogic\DataAccess\ConnectionData\Entities\ConnectionData;
 use SeQura\Core\BusinessLogic\DataAccess\CountryConfiguration\Entities\CountryConfiguration;
 use SeQura\Core\BusinessLogic\DataAccess\GeneralSettings\Entities\GeneralSettings;
+use SeQura\Core\BusinessLogic\DataAccess\OrderSettings\Entities\OrderStatusSettings;
 use SeQura\Core\BusinessLogic\DataAccess\PromotionalWidgets\Entities\WidgetSettings;
 use SeQura\Core\BusinessLogic\DataAccess\StatisticalData\Entities\StatisticalData;
 use SeQura\Core\BusinessLogic\Domain\Integration\Disconnect\DisconnectServiceInterface;
@@ -120,5 +121,6 @@ class BootstrapComponent extends BaseBootstrapComponent
         RepositoryRegistry::registerRepository(StatisticalData::class, EntityRepository::class);
         RepositoryRegistry::registerRepository(WidgetSettings::class, EntityRepository::class);
         RepositoryRegistry::registerRepository(GeneralSettings::class, EntityRepository::class);
+        RepositoryRegistry::registerRepository(OrderStatusSettings::class, EntityRepository::class);
     }
 }
