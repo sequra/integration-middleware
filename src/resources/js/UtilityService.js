@@ -94,6 +94,37 @@ if (!window.SequraFE) {
 
             return parent;
         };
+
+        /**
+         * Returns the menu item array for page navigation.
+         *
+         * @param {string} activePage
+         * @return {[{label: string, href: string, isActive: boolean},{label: string, href: string, isActive: boolean}]}
+         */
+        this.getMenuItems = (activePage) => {
+            const menuItems = [
+                {
+                    label: 'general.paymentMethods',
+                    href: window.location.href.split('#')[0] + '#payment',
+                    isActive: activePage === SequraFE.appStates.PAYMENT
+                },
+                {
+                    label: 'general.settings',
+                    href: window.location.href.split('#')[0] + '#settings',
+                    isActive: activePage === SequraFE.appStates.SETTINGS
+                }
+            ];
+
+            if (SequraFE.pages?.transactions?.[0]) {
+                menuItems.push({
+                    label: 'general.transactionLogs',
+                    href: window.location.href.split('#')[0] + '#transactions',
+                    isActive: activePage === SequraFE.appStates.TRANSACTION
+                })
+            }
+
+            return menuItems;
+        }
     }
 
     SequraFE.utilities = new UtilityService();

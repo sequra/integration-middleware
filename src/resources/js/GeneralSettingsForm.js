@@ -5,16 +5,23 @@ if (!window.SequraFE) {
 (function () {
     /**
      * @typedef GeneralSettings
-     * @property {boolean} showSeQuraCheckoutAsHostedPage
      * @property {boolean} sendOrderReportsPeriodicallyToSeQura
+     * @property {boolean | null} showSeQuraCheckoutAsHostedPage
      * @property {string[] | null} allowedIPAddresses
      * @property {string[] | null} excludedCategories
      * @property {string[] | null} excludedProducts
+     * @property {string | null} replacementPaymentMethod
      */
 
     /**
      * @typedef Category
      * @property {string} id
+     * @property {string} name
+     */
+
+    /**
+     * @typedef ShopPaymentMethod
+     * @property {string} code
      * @property {string} name
      */
 
@@ -37,6 +44,7 @@ if (!window.SequraFE) {
      * generalSettings: GeneralSettings,
      * countrySettings: CountrySettings[],
      * shopCategories: Category[],
+     * shopPaymentMethods: ShopPaymentMethod[],
      * sellingCountries: SellingCountry[],
      * connectionSettings: ConnectionSettings,
      * }} data
@@ -70,13 +78,23 @@ if (!window.SequraFE) {
         /** @type boolean */
         let hasCountryConfigurationChanged = false;
 
+        /** @type boolean */
+        const useHostedPage = SequraFE?.generalSettings?.useHostedPage ?? true
+        /** @type boolean */
+        const useReplacementPaymentMethod = SequraFE?.generalSettings?.useReplacementPaymentMethod ?? false
+        /** @type boolean */
+        const useAllowedIPAddresses = SequraFE?.generalSettings?.useAllowedIPAddresses ?? true
+        /** @type boolean */
+        const useOrderReporting = SequraFE?.generalSettings?.useOrderReporting ?? false;
+
         /** @type GeneralSettings */
         const defaultGeneralSettingsData = {
-            showSeQuraCheckoutAsHostedPage: false,
             sendOrderReportsPeriodicallyToSeQura: false,
-            allowedIPAddresses: [],
+            showSeQuraCheckoutAsHostedPage: useHostedPage ? false : null,
+            allowedIPAddresses: useAllowedIPAddresses ? [] : null,
             excludedCategories: [],
-            excludedProducts: []
+            excludedProducts: [],
+            replacementPaymentMethod: useReplacementPaymentMethod ? '' : null
         };
 
         /**
@@ -135,26 +153,33 @@ if (!window.SequraFE) {
 
             if (configuration.appState === SequraFE.appStates.SETTINGS && !SequraFE.isPromotional) {
                 pageInnerContent?.append(
-                    generator.createToggleField({
+                    useHostedPage ? generator.createToggleField({
                         value: changedGeneralSettings.showSeQuraCheckoutAsHostedPage,
                         label: 'generalSettings.showCheckoutAsHostedPage.label',
                         description: 'generalSettings.showCheckoutAsHostedPage.description',
                         onChange: (value) => handleGeneralSettingsChange('showSeQuraCheckoutAsHostedPage', value)
-                    }),
-                    generator.createToggleField({
+                    }) : [],
+                    useOrderReporting ? generator.createToggleField({
                         value: changedGeneralSettings.sendOrderReportsPeriodicallyToSeQura,
                         label: 'generalSettings.sendOrderReports.label',
                         description: 'generalSettings.sendOrderReports.description',
                         onChange: (value) => handleGeneralSettingsChange('sendOrderReportsPeriodicallyToSeQura', value)
-                    }),
-                    generator.createMultiItemSelectorField({
+                    }) : [],
+                    useReplacementPaymentMethod ? generator.createDropdownField({
+                        value: changedGeneralSettings.replacementPaymentMethod,
+                        label: 'generalSettings.replacementPaymentMethod.label',
+                        description: 'generalSettings.replacementPaymentMethod.description',
+                        options: getPaymentMethodOptions(),
+                        onChange: (value) => handleGeneralSettingsChange('replacementPaymentMethod', value)
+                    }) : [],
+                    useAllowedIPAddresses ? generator.createMultiItemSelectorField({
                         name: 'allowedIPAddresses-selector',
                         label: 'generalSettings.allowedIPAddresses.label',
                         description: 'generalSettings.allowedIPAddresses.description',
                         value: changedGeneralSettings.allowedIPAddresses?.join(', '),
                         searchable: false,
                         onChange: (value) => handleGeneralSettingsChange('allowedIPAddresses', value)
-                    }),
+                    }) : [],
                     generator.createMultiItemSelectorField({
                         label: 'generalSettings.excludedCategories.label',
                         description: 'generalSettings.excludedCategories.description',
@@ -185,6 +210,23 @@ if (!window.SequraFE) {
 
             renderCountries();
             data.sellingCountries.length !== 0 && renderControls();
+        }
+
+        /**
+         * Returns shop payment method options.
+         *
+         * @returns {[{label: string, value: string}]}
+         */
+        const getPaymentMethodOptions = () => {
+            const options = [{label: "None", value: ""}];
+            data.shopPaymentMethods.map((shopPaymentMethod) => {
+                options.push({
+                    label: shopPaymentMethod.name.charAt(0).toUpperCase() + shopPaymentMethod.name.slice(1),
+                    value: shopPaymentMethod.code
+                })
+            })
+
+            return options;
         }
 
         /**
@@ -332,7 +374,7 @@ if (!window.SequraFE) {
         const areIPAddressesValid = () => {
             let hasError = false;
 
-            changedGeneralSettings.allowedIPAddresses.forEach((address) => {
+            changedGeneralSettings.allowedIPAddresses?.forEach((address) => {
                 if (!checkIfValidIP(address)) {
                     hasError = true;
                 }
@@ -430,6 +472,11 @@ if (!window.SequraFE) {
                     disableFooter(true);
                     activeGeneralSettings = utilities.cloneObject(changedGeneralSettings);
                     activeCountryConfiguration = changedCountryConfiguration.map((utilities.cloneObject))
+
+                    if (configuration.appState !== SequraFE.appStates.ONBOARDING && hasCountryConfigurationChanged) {
+                        // if countries have been changed, payment methods should be retrieved from API again
+                        SequraFE.state.setData('paymentMethods', null);
+                    }
 
                     configuration.appState === SequraFE.appStates.SETTINGS &&
                     SequraFE.state.setData('generalSettings', activeGeneralSettings);

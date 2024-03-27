@@ -40,7 +40,7 @@ if (!window.SequraFE.components) {
                 generator.createElementFromHTML(SequraFE.imagesProvider.logo || ''),
                 currentVersion ? generator.createVersionBadge(currentVersion) : []
             ]),
-            newVersion && newVersion.versionLabel !== currentVersion
+            currentVersion && newVersion && newVersion.versionLabel !== currentVersion
                 ? generator.createElement(
                     'a',
                     'sqp-download-version',
