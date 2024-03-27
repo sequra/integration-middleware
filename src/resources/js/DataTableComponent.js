@@ -7,6 +7,7 @@ if (!window.SequraFE.components) {
 }
 
 (function () {
+    const { elementGenerator: generator, translationService } = SequraFE;
     /**
      * @typedef TableCell
      * @property {string?} label
@@ -22,14 +23,14 @@ if (!window.SequraFE.components) {
      * @returns {HTMLElement}
      */
     const renderCell = (type, cellData) => {
-        const cell = SequraFE.elementGenerator.createElement(type, cellData.className, cellData.label);
+        const cell = generator.createElement(type, cellData.className, cellData.label);
         cellData.renderer && cellData.renderer(cell);
 
         return cell;
     };
 
     const getTableElement = () => {
-        return SequraFE.elementGenerator.createElementFromHTML('<table><thead><tr></tr></thead><tbody></tbody></table>');
+        return generator.createElementFromHTML('<table><thead><tr></tr></thead><tbody></tbody></table>');
     };
 
     /**
@@ -42,7 +43,7 @@ if (!window.SequraFE.components) {
         items.length &&
         tableWrapper.querySelector('tbody').append(
             ...items.map((item) => {
-                const row = SequraFE.elementGenerator.createElement('tr');
+                const row = generator.createElement('tr');
                 row.append(...item.map((cellData) => renderCell('td', cellData)));
 
                 return row;
@@ -61,7 +62,7 @@ if (!window.SequraFE.components) {
         const tableElement = getTableElement();
 
         headers.forEach((header) => {
-            header.label = SequraFE.translationService.translate(header.label);
+            header.label = translationService.translate(header.label);
         });
 
         const heading = tableElement.querySelector('thead tr');
@@ -69,7 +70,7 @@ if (!window.SequraFE.components) {
 
         createTableRows(tableElement, items);
 
-        return SequraFE.elementGenerator.createElement('div', className, '', null, [tableElement]);
+        return generator.createElement('div', className, '', null, [tableElement]);
     };
 
     SequraFE.components.DataTable = {

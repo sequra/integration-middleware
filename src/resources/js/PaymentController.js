@@ -70,7 +70,7 @@ if (!window.SequraFE) {
 
             Promise.all([
                 sellingCountries ? [] : api.get(configuration.getSellingCountriesUrl),
-                paymentMethods ? [] : api.get(configuration.getPaymentMethodsUrl.replace('{merchantId}', countryConfiguration[0].merchantId)),
+                paymentMethods ? [] : api.get(configuration.getPaymentMethodsUrl.replace(encodeURIComponent('{merchantId}'), countryConfiguration[0].merchantId)),
             ]).then(([sellingCountriesRes, paymentMethodsRes]) => {
                 if (sellingCountriesRes.length !== 0) {
                     sellingCountries = sellingCountriesRes;
@@ -96,10 +96,10 @@ if (!window.SequraFE) {
                 generator.createElement('div', 'sq-page-content-wrapper sqv--payments', '', null, [
                     SequraFE.components.PageHeader.create(
                         {
-                            currentVersion: version?.current,
+                            currentVersion: version.current,
                             newVersion: {
-                                versionLabel: version?.new,
-                                versionUrl: version?.downloadNewVersionUrl
+                                versionLabel: version.new,
+                                versionUrl: version.downloadNewVersionUrl
                             },
                             mode: connectionSettings.environment === 'live' ? connectionSettings.environment : 'test',
                             activeStore: currentStoreId,
@@ -111,7 +111,17 @@ if (!window.SequraFE) {
                                     SequraFE.state.display();
                                 }
                             },
-                            menuItems: SequraFE.utilities.getMenuItems(SequraFE.appStates.PAYMENT)
+                            menuItems: [
+                                {
+                                    label: 'general.paymentMethods',
+                                    href: window.location.href.split('#')[0] + '#payment',
+                                    isActive: true,
+                                },
+                                {
+                                    label: 'general.settings',
+                                    href: window.location.href.split('#')[0] + '#settings'
+                                }
+                            ]
                         }
                     ),
                     generator.createElement('div', 'sq-page-content', '', null, [
@@ -200,7 +210,7 @@ if (!window.SequraFE) {
          */
         const handleCountryChange = (value) => {
             utilities.showLoader();
-            api.get(configuration.getPaymentMethodsUrl.replace('{merchantId}', value))
+            api.get(configuration.getPaymentMethodsUrl.replace(encodeURIComponent('{merchantId}'), value))
                 .then((methods) => {
                     paymentMethods = [...methods];
                     document.querySelector('.sq-table-container').remove();

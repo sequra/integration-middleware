@@ -113,7 +113,7 @@ if (!window.SequraFE) {
                 generator.createButtonLink({
                     className: 'sq-link-button',
                     text: 'connection.description.endLink',
-                    href: 'https://en.sequra.com/en/contact',
+                    href: 'https://en.sequra.com/',
                     openInNewTab: true
                 })
             )
@@ -234,8 +234,7 @@ if (!window.SequraFE) {
                 return;
             }
 
-            if (hasChange() && activeSettings.environment !== changedSettings.environment
-                && configuration.appState !== SequraFE.appStates.ONBOARDING) {
+            if (hasChange() && activeSettings.environment !== changedSettings.environment) {
                 showConfirmModal().then((confirmed) => {
                     if (!confirmed) {
                         return;

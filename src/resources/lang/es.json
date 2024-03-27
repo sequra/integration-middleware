@@ -14,7 +14,6 @@
     "merchant": "Comerciante:",
     "settings": "Ajustes",
     "paymentMethods": "Métodos de pago",
-    "transactionLogs": "",
     "changesSaved": "Cambios guardados exitosamente.",
     "noItemsAvailable": "No hay elementos disponibles",
     "mode": {
@@ -75,11 +74,7 @@
       "generalSettings": {
         "captureDelayError": "El número de días de retraso de la captura debe estar entre 1 y 7.",
         "retentionPeriodError": "El número mínimo de período de retención es de 60.",
-        "categories": "No se pudieron recuperar las categorías.",
-        "paymentMethods": ""
-      },
-      "orderStatusSettings" : {
-        "orderStatuses": ""
+        "categories": "No se pudieron recuperar las categorías."
       },
       "webhooks": {
         "merchantError": "Comerciante con ID %s no encontrado.",
@@ -130,35 +125,6 @@
     "maximumAmount": "Importe máximo",
     "availableFrom": "Disponible desde",
     "availableTo": "Disponible hasta"
-  },
-  "transaction": {
-    "title": "",
-    "description": "",
-    "noLogs": "",
-    "orderId": "",
-    "paymentMethod": "",
-    "dateTime": "",
-    "eventType": "",
-    "successful": "",
-    "status": {
-      "title": "",
-      "created": "",
-      "queued": "",
-      "in_progress": "",
-      "completed": "",
-      "failed": "",
-      "aborted": ""
-    },
-    "details": {
-      "title": "",
-      "label": "",
-      "reason": "",
-      "failureDescription": "",
-      "sequraLink": "",
-      "shopLink": ""
-    },
-    "yes": "",
-    "no": ""
   },
   "connection": {
     "title": {
@@ -305,10 +271,6 @@
       "label": "Mostrar el proceso de pago de SeQura como página independiente",
       "description": "Especificar si el proceso de pago de SeQura debe mostrarse como una página alojada o una ventana emergente."
     },
-    "replacementPaymentMethod" : {
-      "label": "",
-      "description": ""
-    },
     "sendOrderReports": {
       "label": "Enviar informes de pedidos periódicamente a SeQura",
       "description": "Especificar si la integración debe enviar informes periódicos de pedidos al sistema de SeQura."
@@ -325,5 +287,9 @@
       "label": "Productos excluidos",
       "description": "Los productos de la tienda en este campo no podrán ser adquiridos con los métodos de pago de SeQura. Por favor, introduce un SKU válido para cada producto que desees excluir."
     }
+  },
+  "supportLink": {
+    "label": "¿Necesitas ayuda?",
+    "link": "https://sqra.es/supportes"
   }
 }
