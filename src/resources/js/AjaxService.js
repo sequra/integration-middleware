@@ -104,8 +104,16 @@ if (!window.SequraFE) {
                 url = url.replace('https:', '');
                 url = url.replace('http:', '');
 
+                let authHeader = {};
+                if (SequraFE?.integration?.authToken) {
+                    authHeader = {
+                        'Authorization': `Bearer ${SequraFE.integration.authToken}`
+                    }
+                }
+
                 const headers = {
                     'Content-Type': 'application/json',
+                    ...authHeader,
                     ...(customHeader || {})
                 };
 
