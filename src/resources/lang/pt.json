@@ -14,7 +14,6 @@
     "merchant": "Merchant:",
     "settings": "Settings",
     "paymentMethods": "Payment methods",
-    "transactionLogs": "Transaction logs",
     "changesSaved": "Changes saved successfully.",
     "noItemsAvailable": "No items available",
     "mode": {
@@ -75,11 +74,7 @@
       "generalSettings": {
         "captureDelayError": "Capture delay number of days must be between 1 and 7.",
         "retentionPeriodError": "Minimum number of retention period is 60.",
-        "categories": "Failed to retrieve categories.",
-        "paymentMethods": "Failed to retrieve active payment methods."
-      },
-      "orderStatusSettings": {
-        "orderStatuses": "Failed to retrieve order statuses."
+        "categories": "Failed to retrieve categories."
       },
       "webhooks": {
         "merchantError": "Merchant with id %s not found.",
@@ -131,35 +126,6 @@
     "maximumAmount": "Maximum amount",
     "availableFrom": "Available from",
     "availableTo": "Available to"
-  },
-  "transaction": {
-    "title": "Transaction logs",
-    "description": "Transaction logs description",
-    "noLogs": "There are no transaction logs available",
-    "orderId": "Order ID",
-    "paymentMethod": "Payment method",
-    "dateTime": "Date and time",
-    "eventType": "Event type",
-    "successful": "Successful",
-    "status": {
-      "title": "Status",
-      "created": "Created",
-      "queued": "Queued",
-      "in_progress": "In Progress",
-      "completed": "Completed",
-      "failed": "Failed",
-      "aborted": "Aborted"
-    },
-    "details": {
-      "title": "Details",
-      "label": "Show details",
-      "reason": "Reason:",
-      "failureDescription": "Notification processing failure description:",
-      "sequraLink": "Go to order in the SeQura portal",
-      "shopLink": "Go to shop order"
-    },
-    "yes": "Yes",
-    "no": "No"
   },
   "connection": {
     "title": {
@@ -325,6 +291,6 @@
   },
   "supportLink": {
     "label": "Need help?",
-    "link": "https://sqra.es/supportes"
+    "link": "https://sqra.es/supportpt"
   }
 }

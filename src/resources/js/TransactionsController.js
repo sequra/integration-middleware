@@ -134,6 +134,7 @@ if (!window.SequraFE) {
                             ])
                         ])
                     ]),
+                    generator.createSupportLink()
                 ]));
 
             initializeInfiniteScroll();

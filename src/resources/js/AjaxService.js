@@ -43,10 +43,9 @@ if (!window.SequraFE) {
                 if (response.status === 400) {
                     return response.json().then(errorCallback);
                 }
-            } catch (e) {
-            }
+            } catch (e) {}
 
-            return errorCallback({status: response.status, error: response.statusMessage});
+            return errorCallback({ status: response.status, error: response.statusMessage });
         };
 
         /**
@@ -54,8 +53,9 @@ if (!window.SequraFE) {
          *
          * @param {string} url The URL to call.
          * @param {(error: Record<string, any>) => Promise<void>?} errorCallback
+         * @param {Record<string, string>?} customHeader
          */
-        const get = (url, errorCallback) => call('GET', url, null, errorCallback);
+        const get = (url, errorCallback, customHeader = {}) => call('GET', url, null, errorCallback, customHeader);
 
         /**
          * Performs POST ajax request.
@@ -127,7 +127,7 @@ if (!window.SequraFE) {
                         : data
                     : undefined;
 
-                fetch(url, {method, headers, body}).then((response) => {
+                fetch(url, { method, headers, body }).then((response) => {
                     if (callUUID !== SequraFE.StateUUIDService.getStateUUID()) {
                         // Obsolete request. The app has changed the original state (page) that issued the call.
                         console.log('cancelling an obsolete request', url);
