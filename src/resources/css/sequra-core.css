@@ -1917,19 +1917,32 @@ body {
 }
 
 .sq-support-link {
-  position: absolute;
+  position: fixed;
   bottom: 2rem;
+  left: 3rem;
+  z-index: 9000;
 }
 .sq-support-link .sq-support-icon {
   width: 25px;
   margin-right: 6px;
   vertical-align: middle;
+  color: #686565;
 }
 .sq-support-link .sq-support-link-label {
   vertical-align: middle;
 }
 
-.sqv--settings .sq-support-link {
-  position: fixed;
-  bottom: 2rem;
+.material-symbols-outlined {
+  font-variation-settings:
+          'FILL' 1,
+          'wght' 700,
+          'GRAD' 0,
+          'opsz' 48
+}
+
+@media (max-width: 767.98px) {
+  .sq-support-link {
+    position: relative;
+    left: 1rem;
+  }
 }
