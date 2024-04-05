@@ -305,10 +305,6 @@
       "label": "Mostrar el proceso de pago de SeQura como página independiente",
       "description": "Especificar si el proceso de pago de SeQura debe mostrarse como una página alojada o una ventana emergente."
     },
-    "replacementPaymentMethod" : {
-      "label": "",
-      "description": ""
-    },
     "sendOrderReports": {
       "label": "Enviar informes de pedidos periódicamente a SeQura",
       "description": "Especificar si la integración debe enviar informes periódicos de pedidos al sistema de SeQura."
@@ -325,5 +321,9 @@
       "label": "Productos excluidos",
       "description": "Los productos de la tienda en este campo no podrán ser adquiridos con los métodos de pago de SeQura. Por favor, introduce un SKU válido para cada producto que desees excluir."
     }
+  },
+  "supportLink": {
+    "label": "¿Necesitas ayuda?",
+    "link": "https://sqra.es/supportes"
   }
 }

@@ -2,8 +2,6 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use SeQura\Middleware\ORM\Eloquent\Tenant;
-
 /**
  * Class TenantRepository
  *
@@ -11,11 +9,13 @@ use SeQura\Middleware\ORM\Eloquent\Tenant;
  */
 class TenantRepository extends BaseRepository
 {
+    protected const TABLE_NAME = 'tenants';
+
     /**
      * @inheritDoc
      */
-    protected function getEloquentModelClassName(): string
+    protected function getTableName(): string
     {
-        return Tenant::class;
+        return static::TABLE_NAME;
     }
 }

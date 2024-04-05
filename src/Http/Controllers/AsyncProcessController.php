@@ -2,6 +2,7 @@
 
 namespace SeQura\Middleware\Http\Controllers;
 
+use Illuminate\Http\Response;
 use SeQura\Core\Infrastructure\Logger\Logger;
 use SeQura\Core\Infrastructure\ServiceRegister;
 use SeQura\Core\Infrastructure\TaskExecution\AsyncProcessStarterService;
@@ -16,9 +17,9 @@ class AsyncProcessController extends BaseController
 {
     /**
      * @param $guid
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function run($guid): \Illuminate\Http\Response
+    public function run($guid): Response
     {
         Logger::logDebug('Received async process request.', 'Integration', ['guid' => $guid]);
 

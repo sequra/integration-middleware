@@ -77,7 +77,7 @@ if (!window.SequraFE) {
             }
 
             Promise.all([
-                transactionLogs ? [] : api.get(configuration.getTransactionLogsUrl + `?page=${page}&limit=${limit}`),
+                transactionLogs ? [] : api.get(configuration.getTransactionLogsUrl + `&page=${page}&limit=${limit}`),
             ]).then(([transactionLogsRes]) => {
                 if (transactionLogsRes.length !== 0) {
                     transactionLogs = transactionLogsRes.transactionLogs;
@@ -134,6 +134,7 @@ if (!window.SequraFE) {
                             ])
                         ])
                     ]),
+                    generator.createSupportLink()
                 ]));
 
             initializeInfiniteScroll();
@@ -196,7 +197,7 @@ if (!window.SequraFE) {
                                 })
                             )
                     } : {},
-                    {label: transactionLog.executionId, className: 'sq-row-id sqs--hidden'}
+                    {label: transactionLog.executionId.toString(), className: 'sq-row-id sqs--hidden'}
                 ];
             });
         }
@@ -273,7 +274,7 @@ if (!window.SequraFE) {
 
                 tableWrapper?.append(spinnerWrapper);
 
-                api.get(configuration.getTransactionLogsUrl + `?page=${page + 1}&limit=${limit}`)
+                api.get(configuration.getTransactionLogsUrl + `&page=${page + 1}&limit=${limit}`)
                     .then((res) => {
                         page++;
                         hasNextPage = res?.hasNextPage;

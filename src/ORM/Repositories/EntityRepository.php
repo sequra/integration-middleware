@@ -2,7 +2,8 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use SeQura\Middleware\ORM\Eloquent\Entity;
+use SeQura\Middleware\ORM\Migrations\CreateEntityTable;
+use SeQura\Middleware\ORM\TableNameProvider;
 
 /**
  * Class EntityRepository
@@ -11,11 +12,13 @@ use SeQura\Middleware\ORM\Eloquent\Entity;
  */
 class EntityRepository extends TenantSpecificRepository
 {
+    protected const TABLE_NAME = CreateEntityTable::TABLE;
+
     /**
      * @inheritDoc
      */
-    protected function getEloquentModelClassName(): string
+    protected function getTableName(): string
     {
-        return Entity::class;
+        return TableNameProvider::getInstance()->getTableName(static::TABLE_NAME);
     }
 }

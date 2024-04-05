@@ -15,7 +15,6 @@ return new class extends Migration
         //        index_6 - lastExecutionProgress
         //        index_7 - lastUpdateTimestamp
         //        index_8 - priority
-        //        index_8 - parentId
         'status' => ['type', 'index_1'],
         'context' => ['type', 'index_4'],
         'lastUpdateTimestamp' => ['id', 'type', 'index_7'],
@@ -26,16 +25,33 @@ return new class extends Migration
 
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up(): void
     {
         Schema::create(static::TABLE_NAME, static function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('type');
-            $table->longText('data');
             for ($i = 1; $i <= 9; $i++) {
                 $table->string("index_$i")->nullable();
             }
+            $table->bigInteger('parent_id')->nullable();
+            $table->string('status', 32);
+            $table->string('context')->nullable();
+            $table->longText('serialized_task')->nullable();
+            $table->string('queue_name');
+            $table->integer('last_execution_progress')->nullable();
+            $table->integer('progress_base_points')->nullable();
+            $table->integer('retries')->nullable();
+            $table->text('failure_description')->nullable();
+            $table->integer('create_time')->nullable();
+            $table->integer('start_time')->nullable();
+            $table->integer('earliest_start_time')->nullable();
+            $table->integer('queue_time')->nullable();
+            $table->integer('last_update_time')->nullable();
+            $table->integer('finish_time')->nullable();
+            $table->integer('priority')->nullable();
 
             foreach (static::INDEXED_COLUMNS as $name => $column) {
                 $table->index($column, $name);
@@ -45,6 +61,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down(): void
     {

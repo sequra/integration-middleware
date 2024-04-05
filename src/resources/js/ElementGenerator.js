@@ -611,7 +611,36 @@ if (!window.SequraFE) {
         );
 
         return wrapper;
-    };
+    }
+
+    /**
+     * Creates a support link FAB.
+     *
+     * @returns {HTMLElement}
+     */
+    const createSupportLink = () => {
+        return createElement(
+            'a',
+            'sq-support-link',
+            '',
+            {
+                href: SequraFE.translationService.translate('supportLink.link'),
+                target: '_blank'
+            },
+            [
+                createElement(
+                    'span',
+                    'material-symbols-outlined sq-support-icon',
+                    'contact_support'
+                ),
+                createElement(
+                    'span',
+                    'sq-support-link-label',
+                    'supportLink.label'
+                )
+            ]
+        );
+    }
 
     /**
      * Creates a settings sidebar.
@@ -667,6 +696,7 @@ if (!window.SequraFE) {
         createPageHeading,
         createVersionBadge,
         createWizardSidebar,
+        createSupportLink,
         createSettingsSidebar
     };
 })();

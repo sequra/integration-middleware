@@ -9,6 +9,7 @@ use SeQura\Middleware\Http\Controllers\OnboardingController;
 use SeQura\Middleware\Http\Controllers\OrderStatusSettingsController;
 use SeQura\Middleware\Http\Controllers\PaymentMethodsController;
 use SeQura\Middleware\Http\Controllers\StoresController;
+use SeQura\Middleware\Http\Controllers\TransactionLogController;
 use SeQura\Middleware\Http\Controllers\WidgetSettingsController;
 use SeQura\Middleware\Http\Middleware\Cors;
 use SeQura\Middleware\Http\Middleware\InitializeAdminContext;
@@ -29,6 +30,7 @@ Route::prefix('sequra')->name('sequra')->group(static function () {
         'prefix' => '/admin',
         'as' => '.admin',
         'middleware' => [
+            'sequra.auth',
             Cors::class,
             ValidateAdminRequest::class,
             InitializeAdminContext::class,
@@ -56,5 +58,6 @@ Route::prefix('sequra')->name('sequra')->group(static function () {
         Route::get('store', [StoresController::class, 'getCurrentStore'])->name('.store');
         Route::get('widget', [WidgetSettingsController::class, 'getWidgetSettings'])->name('.widget.get');
         Route::post('widget', [WidgetSettingsController::class, 'setWidgetSettings'])->name('.widget.set');
+        Route::get('transaction-logs', [TransactionLogController::class, 'getTransactionLogs'])->name('.transaction-logs');
     });
 });

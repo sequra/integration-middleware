@@ -53,8 +53,9 @@ if (!window.SequraFE) {
          *
          * @param {string} url The URL to call.
          * @param {(error: Record<string, any>) => Promise<void>?} errorCallback
+         * @param {Record<string, string>?} customHeader
          */
-        const get = (url, errorCallback) => call('GET', url, null, errorCallback);
+        const get = (url, errorCallback, customHeader = {}) => call('GET', url, null, errorCallback, customHeader);
 
         /**
          * Performs POST ajax request.
@@ -103,8 +104,16 @@ if (!window.SequraFE) {
                 url = url.replace('https:', '');
                 url = url.replace('http:', '');
 
+                let authHeader = {};
+                if (SequraFE?.integration?.authToken) {
+                    authHeader = {
+                        'Authorization': `Bearer ${SequraFE.integration.authToken}`
+                    }
+                }
+
                 const headers = {
                     'Content-Type': 'application/json',
+                    ...authHeader,
                     ...(customHeader || {})
                 };
 

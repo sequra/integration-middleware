@@ -2,8 +2,6 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use SeQura\Middleware\ORM\Eloquent\Configuration;
-
 /**
  * Class ConfigurationRepository
  *
@@ -11,11 +9,13 @@ use SeQura\Middleware\ORM\Eloquent\Configuration;
  */
 class ConfigurationRepository extends BaseRepository
 {
+    protected const TABLE_NAME = 'configurations';
+
     /**
      * @inheritDoc
      */
-    protected function getEloquentModelClassName(): string
+    protected function getTableName(): string
     {
-        return Configuration::class;
+        return static::TABLE_NAME;
     }
 }

@@ -84,6 +84,8 @@ if (!window.SequraFE) {
         const useReplacementPaymentMethod = SequraFE?.generalSettings?.useReplacementPaymentMethod ?? false
         /** @type boolean */
         const useAllowedIPAddresses = SequraFE?.generalSettings?.useAllowedIPAddresses ?? true
+        /** @type boolean */
+        const useOrderReporting = SequraFE?.generalSettings?.useOrderReporting ?? false;
 
         /** @type GeneralSettings */
         const defaultGeneralSettingsData = {
@@ -157,12 +159,12 @@ if (!window.SequraFE) {
                         description: 'generalSettings.showCheckoutAsHostedPage.description',
                         onChange: (value) => handleGeneralSettingsChange('showSeQuraCheckoutAsHostedPage', value)
                     }) : [],
-                    generator.createToggleField({
+                    useOrderReporting ? generator.createToggleField({
                         value: changedGeneralSettings.sendOrderReportsPeriodicallyToSeQura,
                         label: 'generalSettings.sendOrderReports.label',
                         description: 'generalSettings.sendOrderReports.description',
                         onChange: (value) => handleGeneralSettingsChange('sendOrderReportsPeriodicallyToSeQura', value)
-                    }),
+                    }) : [],
                     useReplacementPaymentMethod ? generator.createDropdownField({
                         value: changedGeneralSettings.replacementPaymentMethod,
                         label: 'generalSettings.replacementPaymentMethod.label',
@@ -470,6 +472,11 @@ if (!window.SequraFE) {
                     disableFooter(true);
                     activeGeneralSettings = utilities.cloneObject(changedGeneralSettings);
                     activeCountryConfiguration = changedCountryConfiguration.map((utilities.cloneObject))
+
+                    if (configuration.appState !== SequraFE.appStates.ONBOARDING && hasCountryConfigurationChanged) {
+                        // if countries have been changed, payment methods should be retrieved from API again
+                        SequraFE.state.setData('paymentMethods', null);
+                    }
 
                     configuration.appState === SequraFE.appStates.SETTINGS &&
                     SequraFE.state.setData('generalSettings', activeGeneralSettings);

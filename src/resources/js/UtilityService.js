@@ -115,7 +115,7 @@ if (!window.SequraFE) {
                 }
             ];
 
-            if (SequraFE.pages?.transactions[0]) {
+            if (SequraFE.pages?.transactions?.[0]) {
                 menuItems.push({
                     label: 'general.transactionLogs',
                     href: window.location.href.split('#')[0] + '#transactions',

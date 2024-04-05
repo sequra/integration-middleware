@@ -4,7 +4,7 @@ namespace SeQura\Middleware\Tests\Unit\Repository;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use SeQura\Middleware\Model\Repository\BaseRepository;
+use SeQura\Middleware\ORM\Repositories\BaseRepository;
 
 /**
  * Class TestRepository
@@ -50,5 +50,10 @@ class TestRepository extends BaseRepository
     public static function dropTestEntityTable(): void
     {
         Schema::dropIfExists(static::TABLE_NAME);
+    }
+
+    protected function getTableName(): string
+    {
+        return static::TABLE_NAME;
     }
 }
