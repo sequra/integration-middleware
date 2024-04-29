@@ -131,7 +131,7 @@ if (!window.SequraFE) {
                     label: shopOrderStatus.name.charAt(0).toUpperCase() + shopOrderStatus.name.slice(1),
                     value: shopOrderStatus.id
                 })
-            })
+            });
 
             return options;
         }
