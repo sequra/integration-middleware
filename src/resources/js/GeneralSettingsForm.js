@@ -292,7 +292,7 @@ if (!window.SequraFE) {
                     document.querySelector(`[name="country_${setting.countryCode}"]`),
                     'validation.requiredField'
                 ) && errorCount++;
-            })
+            });
 
             return errorCount === 0;
         }
@@ -402,7 +402,7 @@ if (!window.SequraFE) {
                     configuration.validateConnectionDataUrl,
                     {...data.connectionSettings, merchantId: config.merchantId}
                 ))
-            })
+            });
 
             return Promise.all(promises);
         }
