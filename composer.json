@@ -23,13 +23,6 @@
             "SeQura\\Core\\Tests\\": "vendor/sequra/integration-core/tests/"
         }
     },
-    "license": "GPL",
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "vcs",
-            "no-api": true,
-            "url": "git@github.com:sequra/integration-core.git"
-        }
-    ]
+    "license": "MIT",
+    "minimum-stability": "stable",
 }
