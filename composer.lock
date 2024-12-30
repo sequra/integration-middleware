@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6319e2c60ed2edcf2705910c9c4c8c76",
+    "content-hash": "ba399a7899ab973b85e2c0b4f63dffa8",
     "packages": [
         {
             "name": "brick/math",
@@ -2410,16 +2410,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "v1.0.12",
+            "version": "v1.0.17",
             "source": {
                 "type": "git",
-                "url": "git@github.com:sequra/integration-core.git",
-                "reference": "9aa1cf6cd4d9f10f0f7f9babb46c76606b8a852a"
+                "url": "https://github.com/sequra/integration-core.git",
+                "reference": "801f4466fc73da5251d3cacc2086ea08f2322a2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/9aa1cf6cd4d9f10f0f7f9babb46c76606b8a852a",
-                "reference": "9aa1cf6cd4d9f10f0f7f9babb46c76606b8a852a",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/801f4466fc73da5251d3cacc2086ea08f2322a2a",
+                "reference": "801f4466fc73da5251d3cacc2086ea08f2322a2a",
                 "shasum": ""
             },
             "require": {
@@ -2429,6 +2429,8 @@
                 "php": ">=7.2"
             },
             "require-dev": {
+                "phpcompatibility/php-compatibility": "*",
+                "phpstan/phpstan": "^1.12",
                 "phpunit/phpunit": "8.5.14"
             },
             "type": "library",
@@ -2449,7 +2451,11 @@
                 "proprietary"
             ],
             "description": "Core SeQura integration library",
-            "time": "2024-03-19T09:28:55+00:00"
+            "support": {
+                "source": "https://github.com/sequra/integration-core/tree/v1.0.17",
+                "issues": "https://github.com/sequra/integration-core/issues"
+            },
+            "time": "2024-12-30T10:36:58+00:00"
         },
         {
             "name": "symfony/console",
