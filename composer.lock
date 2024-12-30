@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68224c3d3470becd14efb48b1705a113",
+    "content-hash": "ba399a7899ab973b85e2c0b4f63dffa8",
     "packages": [
         {
             "name": "brick/math",
@@ -2410,16 +2410,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "dev-dev",
+            "version": "v1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "abdb648055b7c7bd742db651029886962212d650"
+                "reference": "801f4466fc73da5251d3cacc2086ea08f2322a2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/abdb648055b7c7bd742db651029886962212d650",
-                "reference": "abdb648055b7c7bd742db651029886962212d650",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/801f4466fc73da5251d3cacc2086ea08f2322a2a",
+                "reference": "801f4466fc73da5251d3cacc2086ea08f2322a2a",
                 "shasum": ""
             },
             "require": {
@@ -2436,20 +2436,26 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "SeQura\\Core\\BusinessLogic\\": "src/BusinessLogic",
-                    "SeQura\\Core\\Infrastructure\\": "src/Infrastructure"
+                    "SeQura\\Core\\Infrastructure\\": "src/Infrastructure",
+                    "SeQura\\Core\\BusinessLogic\\": "src/BusinessLogic"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "SeQura\\Core\\Tests\\Infrastructure\\": "tests/Infrastructure",
+                    "SeQura\\Core\\Tests\\BusinessLogic\\": "tests/BusinessLogic",
+                    "SeQura\\Core\\Console\\": "console"
+                }
+            },
             "license": [
                 "proprietary"
             ],
             "description": "Core SeQura integration library",
             "support": {
-                "issues": "https://github.com/sequra/integration-core/issues",
-                "source": "https://github.com/sequra/integration-core/tree/dev"
+                "source": "https://github.com/sequra/integration-core/tree/v1.0.17",
+                "issues": "https://github.com/sequra/integration-core/issues"
             },
-            "time": "2024-12-27T09:19:21+00:00"
+            "time": "2024-12-30T10:36:58+00:00"
         },
         {
             "name": "symfony/console",
@@ -6633,9 +6639,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "sequra/integration-core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
