@@ -180,14 +180,14 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
     /**
      * Deletes records identified by the query.
      *
-     * @param QueryFilter $filter
+     * @param QueryFilter|null $filter
      *
-     * @return int
+     * @return void
      * @throws QueryFilterInvalidParamException
      */
-    public function deleteWhere(QueryFilter $filter = null): int
+    public function deleteWhere(QueryFilter $filter = null): void
     {
-        return $this->getTransformer()->transformFilter($filter)->delete();
+        $this->getTransformer()->transformFilter($filter)->delete();
     }
 
     /**
