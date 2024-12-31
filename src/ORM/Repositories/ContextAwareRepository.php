@@ -2,7 +2,6 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
 use SeQura\Core\Infrastructure\ORM\Entity;
 use SeQura\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
 use SeQura\Core\Infrastructure\ORM\QueryFilter\Operators;
@@ -29,12 +28,11 @@ abstract class ContextAwareRepository extends BaseRepository
     public function save(Entity $entity): int
     {
         $data = $this->getTransformer()->prepareDataForInsertOrUpdate($entity);
-        /** @var Model $eloquentModel */
-        $eloquentModel = $this->getTransformer()->newQuery()->create($data);
-        $entity->setId($eloquentModel->id);
+        $id = $this->getTransformer()->newQuery()->insertGetId($data);
+        $entity->setId($id);
         $this->update($entity);
 
-        return $eloquentModel->id;
+        return $id;
     }
 
     /**
