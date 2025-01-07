@@ -36,11 +36,26 @@ class QueueItemEntityTransformer extends OrmEntityTransformer
         $item->setRetries(!empty($record['retries']) ? (int)$record['retries'] : 0);
         $item->setFailureDescription($record['failure_description']);
         $item->setCreateTimestamp($record['create_time']);
-        $item->setStartTimestamp(($record['start_time']));
-        $item->setEarliestStartTimestamp($record['earliest_start_time']);
-        $item->setQueueTimestamp($record['queue_time']);
-        $item->setLastUpdateTimestamp($record['last_update_time']);
-        $item->setFinishTimestamp($record['finish_time']);
+        if ($record['start_time'] !== null) {
+            $item->setStartTimestamp($record['start_time']);
+        }
+
+        if ($record['earliest_start_time'] !== null) {
+            $item->setEarliestStartTimestamp($record['earliest_start_time']);
+        }
+
+        if ($record['queue_time'] !== null) {
+            $item->setQueueTimestamp($record['queue_time']);
+        }
+
+        if ($record['last_update_time'] !== null) {
+            $item->setLastUpdateTimestamp($record['last_update_time']);
+        }
+
+        if ($record['finish_time'] !== null) {
+            $item->setFinishTimestamp($record['finish_time']);
+        }
+
         $item->setPriority((int)$record['priority']);
 
         return $item;
