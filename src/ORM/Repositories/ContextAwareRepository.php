@@ -2,13 +2,11 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
 use SeQura\Core\Infrastructure\ORM\Entity;
 use SeQura\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
 use SeQura\Core\Infrastructure\ORM\QueryFilter\Operators;
 use SeQura\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
-use SeQura\Middleware\ORM\Transformers\ContextAwareTransformer;
-use SeQura\Middleware\ORM\Transformers\EloquentTransformer;
+use SeQura\Middleware\ORM\Transformers\OrmEntityTransformer;
 
 /**
  * Class ContextAwareRepository
@@ -30,12 +28,11 @@ abstract class ContextAwareRepository extends BaseRepository
     public function save(Entity $entity): int
     {
         $data = $this->getTransformer()->prepareDataForInsertOrUpdate($entity);
-        /** @var Model $eloquentModel */
-        $eloquentModel = $this->getTransformer()->newQuery()->create($data);
-        $entity->setId($eloquentModel->id);
+        $id = $this->getTransformer()->newQuery()->insertGetId($data);
+        $entity->setId($id);
         $this->update($entity);
 
-        return $eloquentModel->id;
+        return $id;
     }
 
     /**
@@ -62,16 +59,15 @@ abstract class ContextAwareRepository extends BaseRepository
     /**
      * Gets EloquentTransformer instance.
      *
-     * @return EloquentTransformer
+     * @return OrmEntityTransformer
      */
-    protected function getTransformer(): EloquentTransformer
+    protected function getTransformer(): OrmEntityTransformer
     {
         if ($this->transformer === null) {
             $ormInstance = new $this->entityClass();
-            $this->transformer = new ContextAwareTransformer(
-                $this->getEloquentModelClassName(),
-                $ormInstance,
-                $this->getTableName()
+            $this->transformer = new OrmEntityTransformer(
+                $this->getTableName(),
+                $ormInstance
             );
         }
 
