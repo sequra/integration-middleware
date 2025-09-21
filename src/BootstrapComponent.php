@@ -5,8 +5,11 @@ namespace SeQura\Middleware;
 use SeQura\Core\BusinessLogic\BootstrapComponent as BaseBootstrapComponent;
 use SeQura\Core\BusinessLogic\DataAccess\ConnectionData\Entities\ConnectionData;
 use SeQura\Core\BusinessLogic\DataAccess\CountryConfiguration\Entities\CountryConfiguration;
+use SeQura\Core\BusinessLogic\DataAccess\Credentials\Entities\Credentials;
+use SeQura\Core\BusinessLogic\DataAccess\Deployments\Entities\Deployment;
 use SeQura\Core\BusinessLogic\DataAccess\GeneralSettings\Entities\GeneralSettings;
 use SeQura\Core\BusinessLogic\DataAccess\OrderSettings\Entities\OrderStatusSettings;
+use SeQura\Core\BusinessLogic\DataAccess\PaymentMethod\Entities\PaymentMethod;
 use SeQura\Core\BusinessLogic\DataAccess\PromotionalWidgets\Entities\WidgetSettings;
 use SeQura\Core\BusinessLogic\DataAccess\StatisticalData\Entities\StatisticalData;
 use SeQura\Core\BusinessLogic\DataAccess\TransactionLog\Entities\TransactionLog;
@@ -124,5 +127,8 @@ class BootstrapComponent extends BaseBootstrapComponent
         RepositoryRegistry::registerRepository(GeneralSettings::class, EntityRepository::class);
         RepositoryRegistry::registerRepository(OrderStatusSettings::class, EntityRepository::class);
         RepositoryRegistry::registerRepository(TransactionLog::class, EntityRepository::class);
+        RepositoryRegistry::registerRepository(Deployment::class, EntityRepository::class);
+        RepositoryRegistry::registerRepository(Credentials::class, EntityRepository::class);
+        RepositoryRegistry::registerRepository(PaymentMethod::class, EntityRepository::class);
     }
 }
