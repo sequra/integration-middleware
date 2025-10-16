@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85f0dad1a5aa3000c73124d0296efe12",
+    "content-hash": "d859e9e3e04992ccb07482b013e9cb6a",
     "packages": [
         {
             "name": "brick/math",
@@ -2361,16 +2361,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "v2.3.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "4d5e04da07bef599d55aac1dd21810c078bcfb46"
+                "reference": "5b41cc15ed35c3a5f62447a986eabaa58d3af3c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/4d5e04da07bef599d55aac1dd21810c078bcfb46",
-                "reference": "4d5e04da07bef599d55aac1dd21810c078bcfb46",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/5b41cc15ed35c3a5f62447a986eabaa58d3af3c1",
+                "reference": "5b41cc15ed35c3a5f62447a986eabaa58d3af3c1",
                 "shasum": ""
             },
             "require": {
@@ -2384,6 +2384,7 @@
                 "phpstan/phpstan": "^1.12 || ^2.1",
                 "phpunit/phpunit": "8.5.14"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2403,10 +2404,10 @@
             ],
             "description": "Core SeQura integration library",
             "support": {
-                "source": "https://github.com/sequra/integration-core/tree/v2.3.1",
+                "source": "https://github.com/sequra/integration-core/tree/v3.0.0",
                 "issues": "https://github.com/sequra/integration-core/issues"
             },
-            "time": "2025-09-04T19:27:51+00:00"
+            "time": "2025-10-09T06:54:54+00:00"
         },
         {
             "name": "symfony/console",
@@ -6591,7 +6592,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sequra/integration-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
