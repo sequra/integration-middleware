@@ -65,15 +65,16 @@ class WidgetSettingsController extends BaseController
         $labels = $data['widgetLabels'] ?? [];
         $response = AdminAPI::get()->widgetConfiguration($request->get('storeId'))->setWidgetSettings(
             new WidgetSettingsRequest(
-                $data['useWidgets'],
-                $data['assetsKey'] ?: '',
                 $data['displayWidgetOnProductPage'],
                 $data['showInstallmentAmountInProductListing'],
                 $data['showInstallmentAmountInCartPage'],
-                $data['miniWidgetSelector'],
                 $data['widgetConfiguration'],
-                !empty($labels['messages']) ? $labels['messages'] : [],
-                !empty($labels['messagesBelowLimit']) ? $labels['messagesBelowLimit'] : []
+                $data['productPriceSelector'],
+                '',
+                $data['cartPriceSelector'],
+                '',
+                '',
+                ''
             )
         );
 

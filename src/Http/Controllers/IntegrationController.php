@@ -42,8 +42,7 @@ class IntegrationController extends BaseController
      */
     public function getState(Request $request): JsonResponse
     {
-        $useWidgets = $request->get('usesWidgets') !== 'false';
-        $data = AdminAPI::get()->integration($request->get('storeId'))->getUIState($useWidgets);
+        $data = AdminAPI::get()->integration($request->get('storeId'))->getUIState();
 
         return response()->json($data->toArray());
     }
