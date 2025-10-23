@@ -31,8 +31,8 @@ Route::prefix('sequra')->name('sequra')->group(static function () {
         'as' => '.admin',
         'middleware' => [
             'sequra.auth',
+            'sequra.validate',
             Cors::class,
-            ValidateAdminRequest::class,
             InitializeAdminContext::class,
         ]
     ], static function () {
