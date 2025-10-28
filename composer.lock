@@ -2365,12 +2365,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "64181201f1ab38ad00e9770d27e17bda9a12971d"
+                "reference": "ef51be070f2d0cc133d41d8fc3ba7106ebd6aeec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/64181201f1ab38ad00e9770d27e17bda9a12971d",
-                "reference": "64181201f1ab38ad00e9770d27e17bda9a12971d",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/ef51be070f2d0cc133d41d8fc3ba7106ebd6aeec",
+                "reference": "ef51be070f2d0cc133d41d8fc3ba7106ebd6aeec",
                 "shasum": ""
             },
             "require": {
@@ -2405,7 +2405,7 @@
                 "source": "https://github.com/sequra/integration-core/tree/feature/LIS-72",
                 "issues": "https://github.com/sequra/integration-core/issues"
             },
-            "time": "2025-10-28T14:20:56+00:00"
+            "time": "2025-10-28T15:04:58+00:00"
         },
         {
             "name": "symfony/console",
