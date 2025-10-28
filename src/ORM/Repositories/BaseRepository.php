@@ -46,7 +46,7 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      *
      * @param string $entityClass Repository entity class.
      */
-    public function setEntityClass($entityClass): void
+    public function setEntityClass(string $entityClass): void
     {
         $this->entityClass = $entityClass;
     }
@@ -60,7 +60,7 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      * @throws QueryFilterInvalidParamException
      * @throws JsonException
      */
-    public function select(QueryFilter $filter = null): array
+    public function select(?QueryFilter $filter = null): array
     {
         $queryBuilder = $this->getTransformer()->transformFilter($filter);
         $baseEntities = $queryBuilder->get()->toArray();
@@ -71,12 +71,13 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
     /**
      * Executes select query and returns first result.
      *
-     * @param QueryFilter $filter Filter for query.
+     * @param QueryFilter|null $filter Filter for query.
      *
      * @return Entity|null First found entity or NULL.
-     * @throws QueryFilterInvalidParamException|JsonException
+     * @throws JsonException
+     * @throws QueryFilterInvalidParamException
      */
-    public function selectOne(QueryFilter $filter = null): ?Entity
+    public function selectOne(?QueryFilter $filter = null): ?Entity
     {
         if ($filter === null) {
             $filter = new QueryFilter();
@@ -94,7 +95,7 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      * @param Entity $entity Entity to be saved.
      *
      * @return int Identifier of saved entity.
-     * @throws QueryFilterInvalidParamException
+     * @throws QueryFilterInvalidParamException|JsonException
      */
     public function save(Entity $entity): int
     {
@@ -165,16 +166,14 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
     /**
      * Counts records that match filter criteria.
      *
-     * @param QueryFilter $filter Filter for query.
+     * @param QueryFilter|null $filter Filter for query.
      *
      * @return int Number of records that match filter criteria.
      * @throws QueryFilterInvalidParamException
      */
-    public function count(QueryFilter $filter = null): int
+    public function count(?QueryFilter $filter = null): int
     {
-        $queryBuilder = $this->getTransformer()->transformFilter($filter);
-
-        return $queryBuilder->count();
+        return $this->getTransformer()->transformFilter($filter)->count();
     }
 
     /**
@@ -185,7 +184,7 @@ abstract class BaseRepository implements RepositoryInterface, ConditionallyDelet
      * @return void
      * @throws QueryFilterInvalidParamException
      */
-    public function deleteWhere(QueryFilter $filter = null): void
+    public function deleteWhere(?QueryFilter $filter = null): void
     {
         $this->getTransformer()->transformFilter($filter)->delete();
     }
