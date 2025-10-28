@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d859e9e3e04992ccb07482b013e9cb6a",
+    "content-hash": "27d4f8b0f67292b19fa7fbed96006244",
     "packages": [
         {
             "name": "brick/math",
@@ -2361,16 +2361,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "dev-master",
+            "version": "dev-feature/LIS-72",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "ced76f65c4ce5a8b3ca64c2f0268b9b09d215b78"
+                "reference": "64181201f1ab38ad00e9770d27e17bda9a12971d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/ced76f65c4ce5a8b3ca64c2f0268b9b09d215b78",
-                "reference": "ced76f65c4ce5a8b3ca64c2f0268b9b09d215b78",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/64181201f1ab38ad00e9770d27e17bda9a12971d",
+                "reference": "64181201f1ab38ad00e9770d27e17bda9a12971d",
                 "shasum": ""
             },
             "require": {
@@ -2384,7 +2384,6 @@
                 "phpstan/phpstan": "^1.12 || ^2.1",
                 "phpunit/phpunit": "8.5.14"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2403,10 +2402,10 @@
             ],
             "description": "Core SeQura integration library",
             "support": {
-                "source": "https://github.com/sequra/integration-core/tree/master",
+                "source": "https://github.com/sequra/integration-core/tree/feature/LIS-72",
                 "issues": "https://github.com/sequra/integration-core/issues"
             },
-            "time": "2025-10-21T10:02:26+00:00"
+            "time": "2025-10-28T14:20:56+00:00"
         },
         {
             "name": "symfony/console",
