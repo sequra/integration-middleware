@@ -13,7 +13,6 @@ use SeQura\Middleware\Http\Controllers\TransactionLogController;
 use SeQura\Middleware\Http\Controllers\WidgetSettingsController;
 use SeQura\Middleware\Http\Middleware\Cors;
 use SeQura\Middleware\Http\Middleware\InitializeAdminContext;
-use SeQura\Middleware\Http\Middleware\ValidateAdminRequest;
 
 Route::post(
     'sequra/async/asyncprocess/guid/{guid}',
