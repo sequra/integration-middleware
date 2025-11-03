@@ -52,7 +52,7 @@ class WidgetSettingsController extends BaseController
                 $data['productPriceSelector'] ?? '',
                 $data['defaultProductLocationSelector'] ?? '',
                 $data['cartPriceSelector'] ?? '',
-                $data['cartPriceSelector'] ?? '',
+                $data['cartLocationSelector'] ?? '',
                 $data['widgetOnCartPage'] ?? '',
                 $data['widgetOnListingPage'] ?? '',
                 $data['listingPriceSelector'] ?? '',
