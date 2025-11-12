@@ -6,7 +6,7 @@
         "php": "^8.4",
         "ext-json": "*",
         "laravel/framework": "^12.36.0",
-        "sequra/integration-core": "dev-feature/LIS-72"
+        "sequra/integration-core": "^4.0.0@RC"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.1",
@@ -23,12 +23,6 @@
             "SeQura\\Core\\Tests\\": "vendor/sequra/integration-core/tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/sequra/integration-core"
-        }
-    ],
     "license": "MIT",
     "minimum-stability": "stable"
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0de6b8c543ef82ab25de39ac90b80cb6",
+    "content-hash": "8f98735469157997942118cb3eab9cdc",
     "packages": [
         {
             "name": "brick/math",
@@ -3076,16 +3076,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "dev-feature/LIS-72",
+            "version": "v4.0.0-rc.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "ef51be070f2d0cc133d41d8fc3ba7106ebd6aeec"
+                "reference": "9c0b2b339c7e81878b1a33728e81ca0583ec2b96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/ef51be070f2d0cc133d41d8fc3ba7106ebd6aeec",
-                "reference": "ef51be070f2d0cc133d41d8fc3ba7106ebd6aeec",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/9c0b2b339c7e81878b1a33728e81ca0583ec2b96",
+                "reference": "9c0b2b339c7e81878b1a33728e81ca0583ec2b96",
                 "shasum": ""
             },
             "require": {
@@ -3102,25 +3102,20 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "SeQura\\Core\\Infrastructure\\": "src/Infrastructure",
-                    "SeQura\\Core\\BusinessLogic\\": "src/BusinessLogic"
+                    "SeQura\\Core\\BusinessLogic\\": "src/BusinessLogic",
+                    "SeQura\\Core\\Infrastructure\\": "src/Infrastructure"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "SeQura\\Core\\Tests\\Infrastructure\\": "tests/Infrastructure",
-                    "SeQura\\Core\\Tests\\BusinessLogic\\": "tests/BusinessLogic"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
             "description": "Core SeQura integration library",
             "support": {
-                "source": "https://github.com/sequra/integration-core/tree/feature/LIS-72",
-                "issues": "https://github.com/sequra/integration-core/issues"
+                "issues": "https://github.com/sequra/integration-core/issues",
+                "source": "https://github.com/sequra/integration-core/tree/v4.0.0-rc.1"
             },
-            "time": "2025-10-28T15:04:58+00:00"
+            "time": "2025-11-11T11:12:29+00:00"
         },
         {
             "name": "symfony/clock",
@@ -7545,7 +7540,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sequra/integration-core": 20
+        "sequra/integration-core": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
