@@ -4,6 +4,7 @@ namespace SeQura\Middleware;
 
 use Illuminate\Support\ServiceProvider;
 use SeQura\Middleware\Http\Middleware\AdminAPIValidator;
+use SeQura\Middleware\Http\Middleware\ValidateAdminRequest;
 
 class SeQuraMiddlewareServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,10 @@ class SeQuraMiddlewareServiceProvider extends ServiceProvider
 
         if (!isset($middlewareStack['sequra.auth'])) {
             $router->aliasMiddleware('sequra.auth', AdminAPIValidator::class);
+        }
+
+        if (!isset($middlewareStack['sequra.validate'])) {
+            $router->aliasMiddleware('sequra.validate', ValidateAdminRequest::class);
         }
     }
 }

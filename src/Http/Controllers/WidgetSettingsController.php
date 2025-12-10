@@ -2,6 +2,7 @@
 
 namespace SeQura\Middleware\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
@@ -21,7 +22,7 @@ class WidgetSettingsController extends BaseController
      *
      * @return JsonResponse
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getWidgetSettings(Request $request): JsonResponse
     {
@@ -37,43 +38,28 @@ class WidgetSettingsController extends BaseController
      *
      * @return JsonResponse
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setWidgetSettings(Request $request): JsonResponse
     {
         $data = $request->post();
-        $config = [];
-        if (!empty($data['widgetConfiguration'])) {
-            if (is_array($data['widgetConfiguration'])) {
-                $config = $data['widgetConfiguration'];
-            } else {
-                $config = json_decode($data['widgetConfiguration'], true);
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    return response()->json(
-                        [
-                            'statusCode' => 400,
-                            'errorCode' => 400,
-                            'errorMessage' => __('messages.widget-configuration.invalid-json'),
-                            'errorParameters' => [],
-                        ],
-                        400
-                    );
-                }
-            }
-        }
-
-        $labels = $data['widgetLabels'] ?? [];
         $response = AdminAPI::get()->widgetConfiguration($request->get('storeId'))->setWidgetSettings(
             new WidgetSettingsRequest(
-                $data['useWidgets'],
-                $data['assetsKey'] ?: '',
-                $data['displayWidgetOnProductPage'],
-                $data['showInstallmentAmountInProductListing'],
-                $data['showInstallmentAmountInCartPage'],
-                $data['miniWidgetSelector'],
-                $data['widgetConfiguration'],
-                !empty($labels['messages']) ? $labels['messages'] : [],
-                !empty($labels['messagesBelowLimit']) ? $labels['messagesBelowLimit'] : []
+                $data['displayWidgetOnProductPage'] ?? false,
+                $data['showInstallmentAmountInProductListing'] ?? false,
+                $data['showInstallmentAmountInCartPage'] ?? false,
+                $data['widgetStyles'] ?? '',
+                $data['productPriceSelector'] ?? '',
+                $data['defaultProductLocationSelector'] ?? '',
+                $data['cartPriceSelector'] ?? '',
+                $data['cartLocationSelector'] ?? '',
+                $data['widgetOnCartPage'] ?? '',
+                $data['widgetOnListingPage'] ?? '',
+                $data['listingPriceSelector'] ?? '',
+                $data['listingLocationSelector'] ?? '',
+                $data['altProductPriceSelector'] ?? '',
+                $data['altProductPriceTriggerSelector'] ?? '',
+                $data['customLocations'] ?? ''
             )
         );
 

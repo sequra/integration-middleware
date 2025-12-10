@@ -13,7 +13,6 @@ use SeQura\Middleware\Http\Controllers\TransactionLogController;
 use SeQura\Middleware\Http\Controllers\WidgetSettingsController;
 use SeQura\Middleware\Http\Middleware\Cors;
 use SeQura\Middleware\Http\Middleware\InitializeAdminContext;
-use SeQura\Middleware\Http\Middleware\ValidateAdminRequest;
 
 Route::post(
     'sequra/async/asyncprocess/guid/{guid}',
@@ -31,8 +30,8 @@ Route::prefix('sequra')->name('sequra')->group(static function () {
         'as' => '.admin',
         'middleware' => [
             'sequra.auth',
+            'sequra.validate',
             Cors::class,
-            ValidateAdminRequest::class,
             InitializeAdminContext::class,
         ]
     ], static function () {
