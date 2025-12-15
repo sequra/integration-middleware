@@ -1,0 +1,15 @@
+# Exclude files and directories from export (Composer, git archive)
+/tests export-ignore
+/phpunit.xml export-ignore
+/run-tests.sh export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/phpstan.neon export-ignore
+/docker/ export-ignore
+/docker-compose.yml export-ignore
+/.phpcs.xml.dist export-ignore
+/.env.sample export-ignore
+/.github/ export-ignore
+/setup.sh export-ignore
+/teardown.sh export-ignore
+/bin/ export-ignore
