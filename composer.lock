@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f98735469157997942118cb3eab9cdc",
+    "content-hash": "4205fdc9bd935537bdf4f1541622c727",
     "packages": [
         {
             "name": "brick/math",
@@ -3076,16 +3076,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "v4.0.0-rc.1",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "9c0b2b339c7e81878b1a33728e81ca0583ec2b96"
+                "reference": "b6e0401969007a99fe5187aa24b988b5f99e0f38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/9c0b2b339c7e81878b1a33728e81ca0583ec2b96",
-                "reference": "9c0b2b339c7e81878b1a33728e81ca0583ec2b96",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/b6e0401969007a99fe5187aa24b988b5f99e0f38",
+                "reference": "b6e0401969007a99fe5187aa24b988b5f99e0f38",
                 "shasum": ""
             },
             "require": {
@@ -3113,9 +3113,9 @@
             "description": "Core SeQura integration library",
             "support": {
                 "issues": "https://github.com/sequra/integration-core/issues",
-                "source": "https://github.com/sequra/integration-core/tree/v4.0.0-rc.1"
+                "source": "https://github.com/sequra/integration-core/tree/v4.0.0"
             },
-            "time": "2025-11-11T11:12:29+00:00"
+            "time": "2025-12-04T16:18:55+00:00"
         },
         {
             "name": "symfony/clock",
@@ -7539,9 +7539,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "sequra/integration-core": 5
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
