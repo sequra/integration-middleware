@@ -45,7 +45,7 @@ class LoggerService extends Singleton implements ShopLoggerAdapter
         if (!empty($context)) {
             $contextData = array();
             foreach ($context as $item) {
-                $contextData[$item->getName()] = print_r($item->getValue(), true);
+                $contextData[$item->getName()] = $this->formatContextValue($item->getValue());
             }
 
             $logMessage .= PHP_EOL . 'Context data: ' . print_r($contextData, true);
@@ -64,5 +64,28 @@ class LoggerService extends Singleton implements ShopLoggerAdapter
             default:
                 Log::info($logMessage);
         }
+    }
+
+    /**
+     * Formats a context value for safe logging without unbounded memory allocation.
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    private function formatContextValue(mixed $value): string
+    {
+        if ($value instanceof \Throwable) {
+            return get_class($value) . ': ' . $value->getMessage()
+                . ' in ' . $value->getFile() . ':' . $value->getLine();
+        }
+
+        if (is_object($value)) {
+            $encoded = json_encode($value, JSON_PARTIAL_OUTPUT_ON_ERROR, 5);
+
+            return $encoded !== false ? $encoded : get_class($value) . ' (not serializable)';
+        }
+
+        return print_r($value, true);
     }
 }
