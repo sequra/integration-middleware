@@ -18,7 +18,9 @@ use SeQura\Core\BusinessLogic\DataAccess\TransactionLog\Entities\TransactionLog;
 use SeQura\Core\BusinessLogic\Domain\Integration\Disconnect\DisconnectServiceInterface;
 use SeQura\Core\BusinessLogic\Domain\Integration\Version\VersionServiceInterface;
 use SeQura\Core\BusinessLogic\Domain\Order\Models\SeQuraOrder;
+use SeQura\Core\BusinessLogic\Domain\StoreIntegration\ProxyContracts\StoreIntegrationsProxyInterface;
 use SeQura\Core\BusinessLogic\Providers\QueueNameProvider\Contract\QueueNameProviderInterface;
+use SeQura\Core\BusinessLogic\SeQuraAPI\Factories\ConnectionProxyFactory;
 use SeQura\Core\BusinessLogic\Utility\EncryptorInterface;
 use SeQura\Core\Infrastructure\Configuration\ConfigEntity;
 use SeQura\Core\Infrastructure\Logger\Interfaces\ShopLoggerAdapter;
@@ -37,6 +39,7 @@ use SeQura\Middleware\ORM\Repositories\TenantRepository;
 use SeQura\Middleware\Service\BusinessLogic\DisconnectService;
 use SeQura\Middleware\Service\BusinessLogic\VersionService;
 use SeQura\Middleware\Service\Infrastructure\LoggerService;
+use SeQura\Middleware\StoreIntegration\MerchantIdAwareStoreIntegrationProxy;
 use SeQura\Middleware\Tenant\Entity\Tenant;
 use SeQura\Middleware\Tenant\Service\TenantService;
 use SeQura\Middleware\Utility\Encryptor;
@@ -104,6 +107,15 @@ class BootstrapComponent extends BaseBootstrapComponent
             DisconnectServiceInterface::class,
             static function () {
                 return new DisconnectService();
+            }
+        );
+
+        ServiceRegister::registerService(
+            StoreIntegrationsProxyInterface::class,
+            static function () {
+                return new MerchantIdAwareStoreIntegrationProxy(
+                    ServiceRegister::getService(ConnectionProxyFactory::class)
+                );
             }
         );
     }
