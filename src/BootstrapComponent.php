@@ -3,6 +3,7 @@
 namespace SeQura\Middleware;
 
 use SeQura\Core\BusinessLogic\BootstrapComponent as BaseBootstrapComponent;
+use SeQura\Core\BusinessLogic\DataAccess\AdvancedSettings\Entities\AdvancedSettings;
 use SeQura\Core\BusinessLogic\DataAccess\ConnectionData\Entities\ConnectionData;
 use SeQura\Core\BusinessLogic\DataAccess\CountryConfiguration\Entities\CountryConfiguration;
 use SeQura\Core\BusinessLogic\DataAccess\Credentials\Entities\Credentials;
@@ -132,5 +133,6 @@ class BootstrapComponent extends BaseBootstrapComponent
         RepositoryRegistry::registerRepository(Credentials::class, EntityRepository::class);
         RepositoryRegistry::registerRepository(PaymentMethod::class, EntityRepository::class);
         RepositoryRegistry::registerRepository(SendReport::class, EntityRepository::class);
+        RepositoryRegistry::registerRepository(AdvancedSettings::class, EntityRepository::class);
     }
 }
