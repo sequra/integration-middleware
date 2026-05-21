@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb14d5d7e8997c67ccc3490c69a10d5f",
+    "content-hash": "f895aeefc29daf1ad0372f9cbdad1195",
     "packages": [
         {
             "name": "brick/math",
@@ -3095,16 +3095,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "v5.1.2",
+            "version": "dev-fix/PAR-778-authorized-proxy-merchant-id-header",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "9f271088c8cc79db9f01c5517577f53731b48d31"
+                "reference": "2ff29775f52a73b77e410617d7f3a127deaa680c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/9f271088c8cc79db9f01c5517577f53731b48d31",
-                "reference": "9f271088c8cc79db9f01c5517577f53731b48d31",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/2ff29775f52a73b77e410617d7f3a127deaa680c",
+                "reference": "2ff29775f52a73b77e410617d7f3a127deaa680c",
                 "shasum": ""
             },
             "require": {
@@ -3133,9 +3133,9 @@
             "description": "Core SeQura integration library",
             "support": {
                 "issues": "https://github.com/sequra/integration-core/issues",
-                "source": "https://github.com/sequra/integration-core/tree/v5.1.2"
+                "source": "https://github.com/sequra/integration-core/tree/fix/PAR-778-authorized-proxy-merchant-id-header"
             },
-            "time": "2026-05-18T17:20:22+00:00"
+            "time": "2026-05-21T16:25:45+00:00"
         },
         {
             "name": "symfony/clock",
@@ -7522,9 +7522,18 @@
             "time": "2025-11-17T20:03:58+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "sequra/integration-core",
+            "version": "dev-fix/PAR-778-authorized-proxy-merchant-id-header",
+            "alias": "5.1.999",
+            "alias_normalized": "5.1.999.0"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "sequra/integration-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

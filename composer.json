@@ -6,7 +6,7 @@
         "php": "^8.4",
         "ext-json": "*",
         "laravel/framework": "^12.36.0",
-        "sequra/integration-core": "^5.1"
+        "sequra/integration-core": "dev-fix/PAR-778-authorized-proxy-merchant-id-header as 5.1.999"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.1",
