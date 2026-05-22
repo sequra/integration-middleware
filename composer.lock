@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90ecb90398c09916151b12eb62c6b386",
+    "content-hash": "40b7fad2df1a53591da24ae44187e910",
     "packages": [
         {
             "name": "brick/math",
@@ -3095,16 +3095,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "v5.2.0",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "b764f84cc87f0cd7c0d7009942100e7a1f892199"
+                "reference": "0f7b744b82743a6eb86863838200227f3202ec4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/b764f84cc87f0cd7c0d7009942100e7a1f892199",
-                "reference": "b764f84cc87f0cd7c0d7009942100e7a1f892199",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/0f7b744b82743a6eb86863838200227f3202ec4b",
+                "reference": "0f7b744b82743a6eb86863838200227f3202ec4b",
                 "shasum": ""
             },
             "require": {
@@ -3133,9 +3133,9 @@
             "description": "Core SeQura integration library",
             "support": {
                 "issues": "https://github.com/sequra/integration-core/issues",
-                "source": "https://github.com/sequra/integration-core/tree/v5.2.0"
+                "source": "https://github.com/sequra/integration-core/tree/v5.3.0"
             },
-            "time": "2026-05-22T10:39:34+00:00"
+            "time": "2026-05-22T15:09:26+00:00"
         },
         {
             "name": "symfony/clock",
