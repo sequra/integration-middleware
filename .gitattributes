@@ -13,3 +13,5 @@
 /setup.sh export-ignore
 /teardown.sh export-ignore
 /bin/ export-ignore
+/CLAUDE.md export-ignore
+/.claude/ export-ignore
