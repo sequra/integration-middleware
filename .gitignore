@@ -2,3 +2,11 @@ vendor
 phpunit.xml
 tests/.env
 tests/bootstrap/cache/*
+
+# Claude files
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/cache/
+.claude/tmp/
+.claude/logs/
+.claude/artifacts/
