@@ -16,7 +16,7 @@
       "Bash(git show:*)",
       "Bash(git branch:*)",
       "Bash(git --version)",
-      "Bash(git check-attr *)",
+      "Bash(git check-attr:*)",
       "Skill(sq-git:commit)",
       "Skill(sq-git:open-pr)",
       "Skill(sq-git:sync-branch)"
