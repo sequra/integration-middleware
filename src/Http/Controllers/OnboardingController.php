@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
 use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\ConnectionRequest;
 use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\OnboardingRequest;
-use SeQura\Core\BusinessLogic\Domain\Connection\Exceptions\InvalidEnvironmentException;
-use SeQura\Core\Infrastructure\Http\Exceptions\HttpRequestException;
 
 /**
  * Class OnboardingController
@@ -37,22 +35,18 @@ class OnboardingController extends BaseController
      * @param Request $request
      *
      * @return JsonResponse
-     *
-     * @throws InvalidEnvironmentException
      */
     public function setConnectionData(Request $request): JsonResponse
     {
         $data = $request->post();
-        $response = AdminAPI::get()->connection($request->get('storeId'))->saveOnboardingData(new OnboardingRequest(
-            $data['environment'],
-            $data['username'],
-            $data['password'],
+        $response = AdminAPI::get()->connection($request->get('storeId'))->connect(new OnboardingRequest(
+            $this->generateConnectionRequests($data),
             $data['sendStatisticalData']
         ));
 
         return response()->json(
             $response->toArray(),
-            $response->isSuccessful() ? 200 : $response->toArray()['errorCode']
+            $response->isSuccessful() ? 200 : $response->toArray()['statusCode']
         );
     }
 
@@ -62,8 +56,6 @@ class OnboardingController extends BaseController
      * @param Request $request
      *
      * @return JsonResponse
-     * @throws InvalidEnvironmentException
-     * @throws HttpRequestException
      */
     public function validateConnectionData(Request $request): JsonResponse
     {
@@ -72,12 +64,37 @@ class OnboardingController extends BaseController
             $data['environment'],
             $data['merchantId'],
             $data['username'],
-            $data['password']
+            $data['password'],
+            $data['deployment']
         ));
 
         return response()->json(
             $response->toArray(),
             $response->isSuccessful() ? 200 : 400
         );
+    }
+
+    /**
+     * Creates a connection request for every deployment sent in the onboarding data.
+     *
+     * @param mixed[] $data
+     *
+     * @return ConnectionRequest[]
+     */
+    private function generateConnectionRequests(array $data): array
+    {
+        $connectionRequests = [];
+
+        foreach ($data['connectionData'] as $connectionData) {
+            $connectionRequests[] = new ConnectionRequest(
+                $data['environment'],
+                $connectionData['merchantId'],
+                $connectionData['username'],
+                $connectionData['password'],
+                $connectionData['deployment']
+            );
+        }
+
+        return $connectionRequests;
     }
 }
