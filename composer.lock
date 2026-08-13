@@ -3107,12 +3107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "bb99ea5b2ac24560e2ac5294af1f9a848f763dc2"
+                "reference": "d16d37625eee23d54313ef75c11c15d130bcc9c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/bb99ea5b2ac24560e2ac5294af1f9a848f763dc2",
-                "reference": "bb99ea5b2ac24560e2ac5294af1f9a848f763dc2",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/d16d37625eee23d54313ef75c11c15d130bcc9c1",
+                "reference": "d16d37625eee23d54313ef75c11c15d130bcc9c1",
                 "shasum": ""
             },
             "require": {
@@ -3143,7 +3143,7 @@
                 "issues": "https://github.com/sequra/integration-core/issues",
                 "source": "https://github.com/sequra/integration-core/tree/LIS-116"
             },
-            "time": "2026-08-12T11:34:55+00:00"
+            "time": "2026-08-13T11:07:44+00:00"
         },
         {
             "name": "symfony/clock",
