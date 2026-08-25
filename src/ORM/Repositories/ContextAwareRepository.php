@@ -2,62 +2,22 @@
 
 namespace SeQura\Middleware\ORM\Repositories;
 
-use SeQura\Core\Infrastructure\ORM\Entity;
-use SeQura\Core\Infrastructure\ORM\Exceptions\QueryFilterInvalidParamException;
-use SeQura\Core\Infrastructure\ORM\QueryFilter\Operators;
-use SeQura\Core\Infrastructure\ORM\QueryFilter\QueryFilter;
+use SeQura\Middleware\ORM\Transformers\ContextAwareOrmEntityTransformer;
 use SeQura\Middleware\ORM\Transformers\OrmEntityTransformer;
 
 /**
  * Class ContextAwareRepository
+ *
+ * Repository of entities kept in a table shared by every tenant. It differs from the base repository only in the
+ * transformer it builds, which scopes every read and write to the context of the current tenant; the base
+ * insert, update and delete need no change.
  *
  * @package SeQura\Middleware\ORM\Repositories
  */
 abstract class ContextAwareRepository extends BaseRepository
 {
     /**
-     * Executes insert query and returns ID of created entity. Entity will be updated with new ID.
-     *
-     * @param Entity $entity Entity to be saved.
-     *
-     * @return int Identifier of saved entity.
-     *
-     * @throws QueryFilterInvalidParamException
-     * @throws \JsonException
-     */
-    public function save(Entity $entity): int
-    {
-        $data = $this->getTransformer()->prepareDataForInsertOrUpdate($entity);
-        $id = $this->getTransformer()->newQuery()->insertGetId($data);
-        $entity->setId($id);
-        $this->update($entity);
-
-        return $id;
-    }
-
-    /**
-     * Executes update query and returns success flag.
-     *
-     * @param Entity $entity Entity to be updated.
-     *
-     * @return bool TRUE if operation succeeded; otherwise, FALSE.
-     *
-     * @throws \JsonException
-     * @throws QueryFilterInvalidParamException
-     */
-    public function update(Entity $entity): bool
-    {
-        $data = $this->getTransformer()->prepareDataForInsertOrUpdate($entity);
-        $filter = (new QueryFilter())->where('id', Operators::EQUALS, $entity->getId());
-        $rowsAffected = $this->getTransformer()
-            ->transformFilter($filter)
-            ->update($data);
-
-        return $rowsAffected === 1;
-    }
-
-    /**
-     * Gets EloquentTransformer instance.
+     * Gets the context aware transformer instance.
      *
      * @return OrmEntityTransformer
      */
@@ -65,7 +25,7 @@ abstract class ContextAwareRepository extends BaseRepository
     {
         if ($this->transformer === null) {
             $ormInstance = new $this->entityClass();
-            $this->transformer = new OrmEntityTransformer(
+            $this->transformer = new ContextAwareOrmEntityTransformer(
                 $this->getTableName(),
                 $ormInstance
             );
@@ -73,11 +33,4 @@ abstract class ContextAwareRepository extends BaseRepository
 
         return $this->transformer;
     }
-
-    /**
-     * Returns the table name.
-     *
-     * @return string
-     */
-    abstract protected function getTableName(): string;
 }
