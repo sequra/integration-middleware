@@ -48,8 +48,7 @@ class GeneralSettingsController extends BaseController
                     $data['showSeQuraCheckoutAsHostedPage'],
                     $data['allowedIPAddresses'],
                     $data['excludedProducts'],
-                    $data['excludedCategories'],
-                    $data['replacementPaymentMethod']
+                    $data['excludedCategories']
                 )
             );
 
