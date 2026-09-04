@@ -78,9 +78,13 @@ class CountrySettingsController extends BaseController
             new CountryConfigurationRequest($request->post())
         );
 
+        $body = $response->toArray();
+        // The core reports unhandled errors with a statusCode of 0, which is not a valid HTTP status.
+        $statusCode = (int)($body['statusCode'] ?? 0);
+
         return response()->json(
-            $response->toArray(),
-            $response->isSuccessful() ? 200 : $response->toArray()['errorCode']
+            $body,
+            $response->isSuccessful() ? 200 : ($statusCode ?: 500)
         );
     }
 }

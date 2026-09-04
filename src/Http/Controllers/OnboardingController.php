@@ -44,9 +44,13 @@ class OnboardingController extends BaseController
             $data['sendStatisticalData']
         ));
 
+        $body = $response->toArray();
+        // The core reports unhandled errors with a statusCode of 0, which is not a valid HTTP status.
+        $statusCode = (int)($body['statusCode'] ?? 0);
+
         return response()->json(
-            $response->toArray(),
-            $response->isSuccessful() ? 200 : $response->toArray()['statusCode']
+            $body,
+            $response->isSuccessful() ? 200 : ($statusCode ?: 500)
         );
     }
 
