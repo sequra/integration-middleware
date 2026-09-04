@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`sequra/middleware` is a **Laravel 12 package** (not a standalone app) that adapts SeQura's platform-agnostic `sequra/integration-core` library into a cloud-hosted, multi-tenant HTTP service. It is consumed as a Composer dependency by a host Laravel application that wires it in via `SeQuraMiddlewareServiceProvider`. PHP `^8.4` is required.
+`sequra/middleware` is a **Laravel 13 package** (not a standalone app) that adapts SeQura's platform-agnostic `sequra/integration-core` library into a cloud-hosted, multi-tenant HTTP service. It is consumed as a Composer dependency by a host Laravel application that wires it in via `SeQuraMiddlewareServiceProvider`. PHP `^8.5` is required.
 
 The core library (`vendor/sequra/integration-core`) owns all business logic, domain entities, the task-execution queue, and the `AdminAPI`/`ServiceRegister`/`RepositoryRegistry` infrastructure. This package supplies only the platform-specific implementations: Laravel HTTP routing/controllers, a Laravel-backed ORM/persistence layer, and the multi-tenant context model.
 
