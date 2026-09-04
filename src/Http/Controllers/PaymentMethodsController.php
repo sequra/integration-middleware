@@ -5,6 +5,7 @@ namespace SeQura\Middleware\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
+use SeQura\Core\BusinessLogic\AdminAPI\PaymentMethods\Requests\GetPaymentMethodsRequest;
 use SeQura\Core\Infrastructure\Http\Exceptions\HttpRequestException;
 
 /**
@@ -27,7 +28,7 @@ class PaymentMethodsController extends BaseController
     {
         $data = AdminAPI::get()
             ->paymentMethods($request->get('storeId'))
-            ->getPaymentMethods($request->get('identifier'));
+            ->getPaymentMethods(new GetPaymentMethodsRequest((string)$request->get('identifier'), true));
 
         return response()->json($data->toArray());
     }
