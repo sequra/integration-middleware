@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
 use SeQura\Core\BusinessLogic\AdminAPI\GeneralSettings\Requests\GeneralSettingsRequest;
 use SeQura\Core\BusinessLogic\Domain\GeneralSettings\Exceptions\FailedToRetrieveCategoriesException;
-use SeQura\Core\BusinessLogic\Domain\GeneralSettings\Exceptions\FailedToRetrieveShopPaymentMethodsException;
 
 /**
  * Class DisconnectController
@@ -74,22 +73,6 @@ class GeneralSettingsController extends BaseController
     public function getShopCategories(Request $request): JsonResponse
     {
         $data = AdminAPI::get()->generalSettings($request->get('storeId'))->getShopCategories();
-
-        return response()->json($data->toArray());
-    }
-
-    /**
-     * Returns all shop payment methods.
-     *
-     * @param Request $request
-     *
-     * @return JsonResponse
-     *
-     * @throws FailedToRetrieveShopPaymentMethodsException
-     */
-    public function getShopPaymentMethods(Request $request): JsonResponse
-    {
-        $data = AdminAPI::get()->generalSettings($request->get('storeId'))->getShopPaymentMethods();
 
         return response()->json($data->toArray());
     }
