@@ -40,4 +40,15 @@ class GenericBaseRepositoryTest extends AbstractGenericStudentRepositoryTest
 
         TestRepository::createTestEntityTable();
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        restore_error_handler();
+        restore_exception_handler();
+    }
 }

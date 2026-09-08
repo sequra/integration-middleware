@@ -45,7 +45,6 @@ Route::prefix('sequra')->name('sequra')->group(static function () {
         Route::get('general-settings', [GeneralSettingsController::class, 'getGeneralSettings'])->name('.general-settings.get');
         Route::post('general-settings', [GeneralSettingsController::class, 'setGeneralSettings'])->name('.general-settings.set');
         Route::get('general-settings/categories', [GeneralSettingsController::class, 'getShopCategories'])->name('.general-settings.categories');
-        Route::get('general-settings/payment-methods', [GeneralSettingsController::class, 'getShopPaymentMethods'])->name('.general-settings.payment-methods');
         Route::get('integration/version', [IntegrationController::class, 'getVersion'])->name('.integration.version');
         Route::get('integration/state', [IntegrationController::class, 'getState'])->name('.integration.state');
         Route::get('integration/shop-name', [IntegrationController::class, 'getShopName'])->name('.integration.shop-name');

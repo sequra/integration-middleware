@@ -22,7 +22,6 @@ class LoggerServiceTest extends TestCase
         $this->loggerService = LoggerService::getInstance();
 
         $this->formatContextValue = new \ReflectionMethod(LoggerService::class, 'formatContextValue');
-        $this->formatContextValue->setAccessible(true);
     }
 
     public function testThrowableIsFormattedWithoutPrintR(): void
