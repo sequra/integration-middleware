@@ -12,6 +12,9 @@ use SeQura\Middleware\ORM\Transformers\OrmEntityTransformer;
  * transformer it builds, which scopes every read and write to the context of the current tenant; the base
  * insert, update and delete need no change.
  *
+ * The table getTableName() names must carry a `context` column alongside the `type` one every entity table has:
+ * reads filter on both together, and both are written on insert and update.
+ *
  * @package SeQura\Middleware\ORM\Repositories
  */
 abstract class ContextAwareRepository extends BaseRepository
