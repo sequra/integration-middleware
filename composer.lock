@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d75f5e6323eb423fbbec935250fd106",
+    "content-hash": "6b192da0a493f8a73ebfa1fa40f98378",
     "packages": [
         {
             "name": "brick/math",
@@ -3103,16 +3103,16 @@
         },
         {
             "name": "sequra/integration-core",
-            "version": "v5.8.0",
+            "version": "dev-LIS-109",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sequra/integration-core.git",
-                "reference": "e597063db76c974daeaf141588bcb8a1e533976e"
+                "reference": "98f27addb7664cef7e327ee43aef44eb968e1ad2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sequra/integration-core/zipball/e597063db76c974daeaf141588bcb8a1e533976e",
-                "reference": "e597063db76c974daeaf141588bcb8a1e533976e",
+                "url": "https://api.github.com/repos/sequra/integration-core/zipball/98f27addb7664cef7e327ee43aef44eb968e1ad2",
+                "reference": "98f27addb7664cef7e327ee43aef44eb968e1ad2",
                 "shasum": ""
             },
             "require": {
@@ -3141,9 +3141,9 @@
             "description": "Core SeQura integration library",
             "support": {
                 "issues": "https://github.com/sequra/integration-core/issues",
-                "source": "https://github.com/sequra/integration-core/tree/v5.8.0"
+                "source": "https://github.com/sequra/integration-core/tree/LIS-109"
             },
-            "time": "2026-09-08T11:22:24+00:00"
+            "time": "2026-10-09T11:57:38+00:00"
         },
         {
             "name": "symfony/clock",
@@ -7607,7 +7607,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "sequra/integration-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -7617,5 +7619,5 @@
     "platform-dev": {
         "ext-pdo": "*"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.2.0"
 }

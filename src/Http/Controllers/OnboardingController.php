@@ -8,9 +8,6 @@ use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
 use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\ConnectionRequest;
 use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\OnboardingRequest;
 use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\ReRegisterWebhookRequest;
-use SeQura\Core\BusinessLogic\Domain\Multistore\StoreContext;
-use SeQura\Core\BusinessLogic\Domain\StatisticalData\Services\StatisticalDataService;
-use SeQura\Core\Infrastructure\ServiceRegister;
 
 /**
  * Class OnboardingController
@@ -43,10 +40,8 @@ class OnboardingController extends BaseController
     public function setConnectionData(Request $request): JsonResponse
     {
         $data = $request->post();
-        $storeId = (string)$request->get('storeId');
-        $response = AdminAPI::get()->connection($storeId)->connect(new OnboardingRequest(
-            $this->generateConnectionRequests($data),
-            $this->getSendStatisticalData($data, $storeId)
+        $response = AdminAPI::get()->connection($request->get('storeId'))->connect(new OnboardingRequest(
+            $this->generateConnectionRequests($data)
         ));
 
         $body = $response->toArray();
@@ -111,29 +106,6 @@ class OnboardingController extends BaseController
             $body,
             $response->isSuccessful() ? 200 : ($statusCode ?: 500)
         );
-    }
-
-    /**
-     * The onboarding frontend does not always send the statistical data choice, and the core saves it on every
-     * connect. Without one the stored choice is kept, so a reconnect does not switch the order reports off; a new
-     * connection sends them.
-     *
-     * @param mixed[] $data
-     * @param string $storeId
-     *
-     * @return bool
-     */
-    private function getSendStatisticalData(array $data, string $storeId): bool
-    {
-        if (array_key_exists('sendStatisticalData', $data)) {
-            return (bool)$data['sendStatisticalData'];
-        }
-
-        /** @var StatisticalDataService $statisticalDataService */
-        $statisticalDataService = ServiceRegister::getService(StatisticalDataService::class);
-        $statisticalData = StoreContext::doWithStore($storeId, [$statisticalDataService, 'getStatisticalData']);
-
-        return $statisticalData === null || $statisticalData->isSendStatisticalData();
     }
 
     /**
