@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use SeQura\Middleware\Http\Controllers\ConfigurationWebhookController;
 use SeQura\Middleware\Http\Controllers\CountrySettingsController;
+use SeQura\Middleware\Http\Controllers\DeploymentsController;
 use SeQura\Middleware\Http\Controllers\DisconnectController;
 use SeQura\Middleware\Http\Controllers\GeneralSettingsController;
 use SeQura\Middleware\Http\Controllers\IntegrationController;
@@ -25,6 +27,10 @@ Route::get(
 )->name('healthz');
 
 Route::prefix('sequra')->name('sequra')->group(static function () {
+    Route::post('configuration/webhook', [ConfigurationWebhookController::class, 'handle'])
+        ->middleware(InitializeAdminContext::class)
+        ->name('.configuration.webhook');
+
     Route::group([
         'prefix' => '/admin',
         'as' => '.admin',
@@ -51,6 +57,9 @@ Route::prefix('sequra')->name('sequra')->group(static function () {
         Route::get('connection', [OnboardingController::class, 'getConnectionData'])->name('.connection.get');
         Route::post('connection', [OnboardingController::class, 'setConnectionData'])->name('.connection.set');
         Route::post('connection/validate', [OnboardingController::class, 'validateConnectionData'])->name('.connection.validate');
+        Route::post('connection/re-register', [OnboardingController::class, 'reRegisterWebhooks'])->name('.connection.re-register');
+        Route::get('deployments', [DeploymentsController::class, 'getDeployments'])->name('.deployments');
+        Route::get('deployments/not-connected', [DeploymentsController::class, 'getNotConnectedDeployments'])->name('.deployments.not-connected');
         Route::get('payment-methods', [PaymentMethodsController::class, 'getPaymentMethods'])->name('.payment-methods');
         Route::get('stores', [StoresController::class, 'getStores'])->name('.stores');
         Route::get('store', [StoresController::class, 'getCurrentStore'])->name('.store');
