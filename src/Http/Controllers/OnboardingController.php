@@ -122,7 +122,7 @@ class OnboardingController extends BaseController
         foreach ($data['connectionData'] as $connectionData) {
             $connectionRequests[] = new ConnectionRequest(
                 $data['environment'],
-                $connectionData['merchantId'],
+                (string)($connectionData['merchantId'] ?? ''),
                 $connectionData['username'],
                 $connectionData['password'],
                 $connectionData['deployment']
