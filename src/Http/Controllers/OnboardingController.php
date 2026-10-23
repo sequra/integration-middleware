@@ -123,8 +123,8 @@ class OnboardingController extends BaseController
             $connectionRequests[] = new ConnectionRequest(
                 $data['environment'],
                 (string)($connectionData['merchantId'] ?? ''),
-                $connectionData['username'],
-                $connectionData['password'],
+                (string)($connectionData['username'] ?? ''),
+                (string)($connectionData['password'] ?? ''),
                 $connectionData['deployment']
             );
         }
