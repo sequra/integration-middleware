@@ -44,14 +44,7 @@ class OnboardingController extends BaseController
             $this->generateConnectionRequests($data)
         ));
 
-        $body = $response->toArray();
-        // The core reports unhandled errors with a statusCode of 0, which is not a valid HTTP status.
-        $statusCode = (int)($body['statusCode'] ?? 0);
-
-        return response()->json(
-            $body,
-            $response->isSuccessful() ? 200 : ($statusCode ?: 500)
-        );
+        return $this->jsonResponse($response);
     }
 
     /**
@@ -98,14 +91,7 @@ class OnboardingController extends BaseController
             )
         );
 
-        $body = $response->toArray();
-        // The core reports unhandled errors with a statusCode of 0, which is not a valid HTTP status.
-        $statusCode = (int)($body['statusCode'] ?? 0);
-
-        return response()->json(
-            $body,
-            $response->isSuccessful() ? 200 : ($statusCode ?: 500)
-        );
+        return $this->jsonResponse($response);
     }
 
     /**
@@ -121,11 +107,11 @@ class OnboardingController extends BaseController
 
         foreach ($data['connectionData'] as $connectionData) {
             $connectionRequests[] = new ConnectionRequest(
-                $data['environment'],
+                (string)($data['environment'] ?? ''),
                 (string)($connectionData['merchantId'] ?? ''),
                 (string)($connectionData['username'] ?? ''),
                 (string)($connectionData['password'] ?? ''),
-                $connectionData['deployment']
+                (string)($connectionData['deployment'] ?? '')
             );
         }
 

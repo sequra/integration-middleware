@@ -63,13 +63,6 @@ class WidgetSettingsController extends BaseController
             )
         );
 
-        $body = $response->toArray();
-        // The core reports unhandled errors with a statusCode of 0, which is not a valid HTTP status.
-        $statusCode = (int)($body['statusCode'] ?? 0);
-
-        return response()->json(
-            $body,
-            $response->isSuccessful() ? 200 : ($statusCode ?: 500)
-        );
+        return $this->jsonResponse($response);
     }
 }

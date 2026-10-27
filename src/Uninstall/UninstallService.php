@@ -30,21 +30,29 @@ abstract class UninstallService implements BaseService
     }
 
     /**
-     * Fully disconnects every connected deployment while the connection data still exists, which removes its store
+     * Disconnects every connected deployment while the connection data still exists, which removes its store
      * integration from the seQura Merchant Portal and runs the integration's disconnect hook. AdminAPI logs a
      * failure and answers with an error response instead of throwing, so a failure does not stop the uninstallation,
      * since the merchant has already removed the app.
      */
     protected function disconnectDeployments(): void
     {
-        $storeId = ConfigurationManager::getInstance()->getContext();
+        $storeId = (string)ConfigurationManager::getInstance()->getContext();
+        if ($storeId === '') {
+            return;
+        }
+
         $onboardingData = AdminAPI::get()->connection($storeId)->getOnboardingData();
         if (!$onboardingData->isSuccessful()) {
             return;
         }
 
-        foreach ($onboardingData->toArray()['connectionData'] ?? [] as $connection) {
-            AdminAPI::get()->disconnect($storeId)->disconnect(new DisconnectRequest($connection['deployment'], true));
+        // Only the last disconnect is full, so the store data is wiped and the disconnect hook runs once.
+        $connections = $onboardingData->toArray()['connectionData'] ?? [];
+        foreach ($connections as $index => $connection) {
+            AdminAPI::get()->disconnect($storeId)->disconnect(
+                new DisconnectRequest($connection['deployment'], $index === array_key_last($connections))
+            );
         }
     }
 

@@ -25,16 +25,22 @@ class ConfigurationWebhookController extends BaseController
      */
     public function handle(Request $request): JsonResponse
     {
-        $response = ConfigurationWebhookAPI::configurationHandler((string)$request->query('storeId', ''))
+        $storeId = (string)$request->query('storeId', '');
+        if ($storeId === '') {
+            abort(400, 'storeId is missing');
+        }
+
+        $response = ConfigurationWebhookAPI::configurationHandler($storeId)
             ->handleRequest((string)$request->query('signature', ''), $request->json()->all());
 
         if ($response->isSuccessful()) {
             return response()->json($response->toArray());
         }
 
-        // A conflict seQura may retry unchanged; any other failure is a request it must not repeat.
+        // A conflict seQura may retry unchanged; any other failure is a request it must not repeat. The numeric code
+        // is in statusCode, errorCode holds the translatable label.
         $data = $response->toArray();
-        $status = (int)($data['errorCode'] ?? 0) === self::STATUS_CONFLICT ? self::STATUS_CONFLICT : self::STATUS_GONE;
+        $status = (int)($data['statusCode'] ?? 0) === self::STATUS_CONFLICT ? self::STATUS_CONFLICT : self::STATUS_GONE;
 
         return response()->json($data, $status);
     }
