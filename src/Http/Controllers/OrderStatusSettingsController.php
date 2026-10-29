@@ -15,7 +15,7 @@ use SeQura\Core\BusinessLogic\Domain\OrderStatusSettings\Exceptions\InvalidSeQur
  *
  * @package SeQura\Middleware\Http\Controllers
  */
-class OrderStatusSettingsController
+class OrderStatusSettingsController extends BaseController
 {
     /**
      * Returns all order statuses from the shop system.
@@ -63,13 +63,6 @@ class OrderStatusSettingsController
             new OrderStatusSettingsRequest($request->post())
         );
 
-        $body = $response->toArray();
-        // The core reports unhandled errors with a statusCode of 0, which is not a valid HTTP status.
-        $statusCode = (int)($body['statusCode'] ?? 0);
-
-        return response()->json(
-            $body,
-            $response->isSuccessful() ? 200 : ($statusCode ?: 500)
-        );
+        return $this->jsonResponse($response);
     }
 }

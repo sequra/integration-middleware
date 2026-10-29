@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use SeQura\Core\BusinessLogic\AdminAPI\AdminAPI;
 use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\ConnectionRequest;
 use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\OnboardingRequest;
+use SeQura\Core\BusinessLogic\AdminAPI\Connection\Requests\ReRegisterWebhookRequest;
 
 /**
  * Class OnboardingController
@@ -40,18 +41,10 @@ class OnboardingController extends BaseController
     {
         $data = $request->post();
         $response = AdminAPI::get()->connection($request->get('storeId'))->connect(new OnboardingRequest(
-            $this->generateConnectionRequests($data),
-            $data['sendStatisticalData']
+            $this->generateConnectionRequests($data)
         ));
 
-        $body = $response->toArray();
-        // The core reports unhandled errors with a statusCode of 0, which is not a valid HTTP status.
-        $statusCode = (int)($body['statusCode'] ?? 0);
-
-        return response()->json(
-            $body,
-            $response->isSuccessful() ? 200 : ($statusCode ?: 500)
-        );
+        return $this->jsonResponse($response);
     }
 
     /**
@@ -79,6 +72,29 @@ class OnboardingController extends BaseController
     }
 
     /**
+     * Registers the store integration of a connected deployment in the seQura Merchant Portal again.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function reRegisterWebhooks(Request $request): JsonResponse
+    {
+        $data = $request->post();
+        $response = AdminAPI::get()->connection($request->get('storeId'))->reRegisterWebhooks(
+            new ReRegisterWebhookRequest(
+                (string)($data['environment'] ?? ''),
+                (string)($data['merchantId'] ?? ''),
+                (string)($data['username'] ?? ''),
+                (string)($data['password'] ?? ''),
+                (string)($data['deployment'] ?? '')
+            )
+        );
+
+        return $this->jsonResponse($response);
+    }
+
+    /**
      * Creates a connection request for every deployment sent in the onboarding data.
      *
      * @param mixed[] $data
@@ -91,11 +107,11 @@ class OnboardingController extends BaseController
 
         foreach ($data['connectionData'] as $connectionData) {
             $connectionRequests[] = new ConnectionRequest(
-                $data['environment'],
-                $connectionData['merchantId'],
-                $connectionData['username'],
-                $connectionData['password'],
-                $connectionData['deployment']
+                (string)($data['environment'] ?? ''),
+                (string)($connectionData['merchantId'] ?? ''),
+                (string)($connectionData['username'] ?? ''),
+                (string)($connectionData['password'] ?? ''),
+                (string)($connectionData['deployment'] ?? '')
             );
         }
 
