@@ -31,5 +31,16 @@
     "ask": [
       "Bash(git push:*)"
     ]
+  },
+  "enabledPlugins": {
+    "sq-php@claude-sequra-tech-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-sequra-tech-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "sequra/llm-tooling"
+      }
+    }
   }
 }
