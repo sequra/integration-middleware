@@ -23,6 +23,10 @@ class CreateEntityTable extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable($this->getTableName())) {
+            return;
+        }
+
         Schema::create(
             $this->getTableName(),
             static function (Blueprint $table) {
